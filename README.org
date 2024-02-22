@@ -4,6 +4,8 @@ notes and plans on how I will selfhost as much as possible
 * Infrastructure
 Most of this will live on my main server as part of / VMs. I'll work to make as much of this NixOS based and will use VMs / Podman containers to seperate roles and security. Tailscale will be used a lot for the comms backend.
 
+* Order of Operations
+If this is the (ever changing) list of services, what order should I impliment them? One thing I would like is to have a single sign on (SSO) service so I don't have a million logins to manage. So should I figure out Keycloak first? Or limit my services to ones that have SSO options? :hmm:
 * Services
 ** Project Management
 *** Snipe-IT
@@ -16,9 +18,9 @@ Most of this will live on my main server as part of / VMs. I'll work to make as 
 *** Jenkins (?)
 *** Ticketing System
 *** Wiki
-**** WikiJS
-**** Media Wiki
-**** DookuWiki
+- WikiJS
+- Wiki
+- DookuWiki
 ** Security
 *** Keycloak (?)
 *** SecurityOnion (?)
