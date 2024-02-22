@@ -12,6 +12,7 @@ If this comes to fruition and I'm widely using it in the house, I probably shoul
 
 * Services
 ** Project Management
+- [[https://github.com/makeplane/plane][Plane]]
 *** To-Dos
 - [[https://github.com/ovh/utask][uTask]] (?)
 - OpenProject (?)
@@ -75,3 +76,6 @@ If this comes to fruition and I'm widely using it in the house, I probably shoul
 - ZFS
 - Remote Sites
 - Windows backups
+** Misc
+- [[https://github.com/babybuddy/babybuddy][Baby Buddy]]
+  for when you want to overdo /everything/!
