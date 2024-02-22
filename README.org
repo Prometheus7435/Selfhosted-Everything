@@ -12,27 +12,30 @@ If this comes to fruition and I'm widely using it in the house, I probably shoul
 
 * Services
 ** Project Management
-*** Snipe-IT
 *** To-Dos
 - [[https://github.com/ovh/utask][uTask]] (?)
-*** OpenProject (?)
-*** PaperNGX
+- OpenProject (?)
+- PaperNGX
+** [[https://awesome-selfhosted.net/tags/inventory-management.html][Inventory]]
+- Snipe-IT
 ** Development
-*** Gitea
-*** Jenkins (?)
+- Gitea
+- Jenkins (?)
 *** Ticketing System
 *** Wiki
 - WikiJS
 - Wiki
 - DookuWiki
+** Single Sign On
+- [[https://www.keycloak.org/][Keycloak]] (?)
+- [[https://github.com/apereo/cas][CAS]]
 ** Security
-*** Keycloak (?)
-*** SecurityOnion (?)
+- SecurityOnion (?)
 ** Networking
-*** pfSense
-*** OpenSense
+- pfSense
+- OpenSense
+- Unifi Controller
 *** DNS
-*** Unifi Controller
 ** Monitoring
 ** Personal
 *** Calendar
@@ -40,32 +43,33 @@ If this comes to fruition and I'm widely using it in the house, I probably shoul
 *** Contacts
 *** Cloud Storage
 - Nextcloud
-*** PRM
+*** Personal Relationship Management
 - [[https://github.com/monicahq/monica/tree/4.x][Monica]]
 *** Food
 - [[https://tandoor.dev/][Tandoor]]
 ** Automation
-*** Home Assistant
-**** Voice control
+- Home Assistant
+  - Voice control
 ** Media
-*** Jellyfin
+*** Video
+- Jellyfin
 *** AudioBooks
-**** AudioBookShelf
+- AudioBookShelf
 *** eBooks
 *** Music
 *** Photos
 - computer vision for better search
 *** Manga / Graphic Novel
-**** Stump
-**** Kavita
+- Stump
+- Kavita
 ** Front Page
-*** Homer
+- Homer
 ** Knowledge Management System
 ** Communication
 *** Matrix (?)
 *** Email (?)
 *** Phone
-**** FreePBX
+- FreePBX
 ** Backups
 - ZFS
 - Remote Sites
