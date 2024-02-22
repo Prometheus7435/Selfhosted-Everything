@@ -5,7 +5,11 @@ notes and plans on how I will selfhost as much as possible
 Most of this will live on my main server as part of / VMs. I'll work to make as much of this NixOS based and will use VMs / Podman containers to seperate roles and security. Tailscale will be used a lot for the comms backend.
 
 * Order of Operations
-If this is the (ever changing) list of services, what order should I impliment them? One thing I would like is to have a single sign on (SSO) service so I don't have a million logins to manage. So should I figure out Keycloak first? Or limit my services to ones that have SSO options? :hmm:
+If this is the (ever changing) list of services, what order should I impliment them? One thing I would like is to have a single sign on (SSO) service so I don't have a million logins to manage. So should I figure out Keycloak first? Or limit my services to ones that have SSO options?
+
+* Long Term Plans
+If this comes to fruition and I'm widely using it in the house, I probably should have something other than a single server running it all. Something high availability (HA) or Kubernetes related with some off-site fail over capabilities. But that's hard so I'll think about it later.
+
 * Services
 ** Project Management
 *** Snipe-IT
