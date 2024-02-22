@@ -15,22 +15,22 @@ If this comes to fruition and I'm widely using it in the house, I probably shoul
 *** To-Dos
 - [[https://github.com/ovh/utask][uTask]] (?)
 - OpenProject (?)
-- PaperNGX
+- [[https://github.com/paperless-ngx/paperless-ngx][PaperNGX]]
 ** [[https://awesome-selfhosted.net/tags/inventory-management.html][Inventory]]
-- Snipe-IT
+- [[https://snipeitapp.com/][Snipe-IT]]
 ** Development
-- Gitea
-- Jenkins (?)
+- [[https://about.gitea.com/][Gitea]]
+- [[https://www.jenkins.io/][Jenkins]] (?)
 *** Ticketing System
 *** Wiki
-- WikiJS
-- Wiki
-- DookuWiki
+- [[https://js.wiki/][WikiJS]]
+- [[https://github.com/wikimedia/mediawiki][Media Wiki]]
+- [[http://dokuwiki.org/][DookuWiki]]
 ** Single Sign On
 - [[https://www.keycloak.org/][Keycloak]] (?)
 - [[https://github.com/apereo/cas][CAS]]
 ** Security
-- SecurityOnion (?)
+- [[https://securityonionsolutions.com/][SecurityOnion]] (?)
 ** Networking
 - pfSense
 - OpenSense
@@ -42,13 +42,13 @@ If this comes to fruition and I'm widely using it in the house, I probably shoul
 *** Push-Notifications
 *** Contacts
 *** Cloud Storage
-- Nextcloud
+- [[https://nextcloud.com/][Nextcloud]]
 *** Personal Relationship Management
 - [[https://github.com/monicahq/monica/tree/4.x][Monica]]
 *** Food
 - [[https://tandoor.dev/][Tandoor]]
 ** Automation
-- Home Assistant
+- [[https://www.home-assistant.io/][Home Assistant]]
   - Voice control
 ** Media
 *** Video
@@ -63,13 +63,13 @@ If this comes to fruition and I'm widely using it in the house, I probably shoul
 - Stump
 - Kavita
 ** Front Page
-- Homer
+- [[https://github.com/bastienwirtz/homer][Homer]]
 ** Knowledge Management System
 ** Communication
 *** Matrix (?)
 *** Email (?)
 *** Phone
-- FreePBX
+- [[https://www.freepbx.org/][FreePBX]]
 ** Backups
 - ZFS
 - Remote Sites
