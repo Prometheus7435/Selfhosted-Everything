@@ -21,6 +21,7 @@ If this comes to fruition and I'm widely using it in the house, I probably shoul
 ** Development
 - [[https://about.gitea.com/][Gitea]]
 - [[https://www.jenkins.io/][Jenkins]] (?)
+- [[https://forgejo.org/][Forgejo]] (hard fork of Gitea)
 *** Ticketing System
 *** Wiki
 - [[https://js.wiki/][WikiJS]]
