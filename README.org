@@ -31,7 +31,7 @@ If this comes to fruition and I'm widely using it in the house, I probably shoul
 **** [[https://github.com/wikimedia/mediawiki][Media Wiki]]
 **** [[http://dokuwiki.org/][DookuWiki]]
 ** Single Sign On
-*** ACTIVE [[https://www.keycloak.org/][Keycloak]]
+*** ACTIVE [[./keycloak-compose.yml][Keycloak]]
 - [[https://du.nkel.dev/blog/2024-02-10_keycloak-docker-compose-nginx/][docker setup blog]]
   - I'll try this out first and see what I need to add. Def need to add Tailscale as the networking.
 - There's not much docs in the [[https://www.keycloak.org/getting-started/getting-started-docker][Keycloak Docker page]] for all the variables I could use.
