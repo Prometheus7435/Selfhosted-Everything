@@ -59,6 +59,7 @@ If this comes to fruition and I'm widely using it in the house, I probably shoul
 **** Jellyfin
 *** AudioBooks
 **** AudioBookShelf
+- maybe [[https://github.com/ChrisLAS/notes/blob/master/audiobookshelf-docker-compose.yml][like this]]?
 *** eBooks
 *** Music
 *** Photos
