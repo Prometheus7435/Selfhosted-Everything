@@ -1,10 +1,21 @@
 version: '3'
 
 services:
+  tailscale:
+    hostname: keycloak.tail0301a.ts.net             # This will become the tailscale device name
+    image: tailscale/tailscale
+    volumes:
+      - ./keycloak/tailscale:/var/lib/tailscale        # State data will be stored in this directory
+      - "/dev/net/tun:/dev/net/tun"           # Required for tailscale to work
+    cap_add:                                    # Required for tailscale to work
+      - net_admin
+      - sys_module
+    command: tailscaled
+
   postgres_db:
     image: postgres:16
     volumes:
-      - /srv/keycloak/data/postgres16:/var/lib/postgresql/data
+      - ./keycloak/data/postgres16:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: keycloak
       POSTGRES_USER: ${POSTGRES_USER:-keycloak}
@@ -28,7 +39,9 @@ services:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-eX4mP13p455w0Rd}
     # command: start --optimized
-    ports:
-      - '127.0.0.1:8080:8080'
+    network_mode: service:tailscale
+    # ports:
+    #   - '127.0.0.1:8080:8080'
     depends_on:
+      - tailscale
       - postgres_db

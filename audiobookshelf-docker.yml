@@ -1,15 +1,15 @@
 version: "3.7"
 services:
   tailscale:
-        hostname: books                         # This will become the tailscale device name
-        image: tailscale/tailscale
-        volumes:
-            - ./tailscale:/var/lib/tailscale        # State data will be stored in this directory
-            - "/dev/net/tun:/dev/net/tun"           # Required for tailscale to work
-        cap_add:                                    # Required for tailscale to work
-          - net_admin
-          - sys_module
-        command: tailscaled
+    hostname: books.tail0301a.ts.net             # This will become the tailscale device name
+    image: tailscale/tailscale
+    volumes:
+      - ./audiobookshelf/tailscale:/var/lib/tailscale        # State data will be stored in this directory
+      - "/dev/net/tun:/dev/net/tun"           # Required for tailscale to work
+    cap_add:                                    # Required for tailscale to work
+      - net_admin
+      - sys_module
+    command: tailscaled
 
   audiobookshelf:
     image: ghcr.io/advplyr/audiobookshelf:latest
@@ -17,7 +17,7 @@ services:
 #    ports:
 #      - 13378:80
     volumes:
-      - /cargo/Audiobooks:/audiobooks
-      - /cargo/Podcasts:/podcasts
-      - ./config:/config
-      - ./metadata>:/metadata
+      - ./audiobookshelf/Audiobooks:/audiobooks
+      - ./audiobookshelf/Podcasts:/podcasts
+      - ./audiobookshelf/config:/config
+      - ./audiobookshelf/metadata>:/metadata
