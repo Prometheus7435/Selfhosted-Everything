@@ -16,7 +16,7 @@ If this comes to fruition and I'm widely using it in the house, I probably shoul
 ** Project Management
 *** [[https://github.com/makeplane/plane][Plane]]
 *** To-Dos
-*** [[https://github.com/ovh/utask][uTask]] (?)
+**** [[https://github.com/ovh/utask][uTask]] (?)
 *** OpenProject (?)
 *** [[https://github.com/paperless-ngx/paperless-ngx][PaperNGX]]
 ** [[https://awesome-selfhosted.net/tags/inventory-management.html][Inventory]]
@@ -27,11 +27,14 @@ If this comes to fruition and I'm widely using it in the house, I probably shoul
 *** [[https://forgejo.org/][Forgejo]] (hard fork of Gitea)
 *** Ticketing System
 *** Wiki
-*** [[https://js.wiki/][WikiJS]]
-*** [[https://github.com/wikimedia/mediawiki][Media Wiki]]
-*** [[http://dokuwiki.org/][DookuWiki]]
+**** [[https://js.wiki/][WikiJS]]
+**** [[https://github.com/wikimedia/mediawiki][Media Wiki]]
+**** [[http://dokuwiki.org/][DookuWiki]]
 ** Single Sign On
 *** ACTIVE [[https://www.keycloak.org/][Keycloak]]
+- [[https://du.nkel.dev/blog/2024-02-10_keycloak-docker-compose-nginx/][docker setup blog]]
+  - I'll try this out first and see what I need to add. Def need to add Tailscale as the networking.
+- There's not much docs in the [[https://www.keycloak.org/getting-started/getting-started-docker][Keycloak Docker page]] for all the variables I could use.
 *** [[https://github.com/apereo/cas][CAS]]
 ** Security
 - [[https://securityonionsolutions.com/][SecurityOnion]] (?)
@@ -41,6 +44,8 @@ If this comes to fruition and I'm widely using it in the house, I probably shoul
 *** DONE Unifi Controller
 *** DNS
 ** Monitoring
+*** Prometheus (?)
+*** Grafana (?)
 ** Personal
 *** Calendar
 *** Push-Notifications
