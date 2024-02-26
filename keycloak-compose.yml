@@ -31,13 +31,13 @@ services:
       KC_DB_USERNAME: ${POSTGRES_USER:-keycloak}
       KC_DB_PASSWORD: ${POSTGRES_PASSWORD:-eX4mP13p455w0Rd}
       KC_DB_SCHEMA: public
-      KC_HOSTNAME: ${KC_HOSTNAME:-your.tld.com}
+      KC_HOSTNAME: ${KC_HOSTNAME:-keycloak.tail0301a.ts.net}
       KC_HOSTNAME_STRICT_HTTPS: true
       KC_HOSTNAME_STRICT: true
       KC_PROXY: edge
       HTTP_ADDRESS_FORWARDING: true
       KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-eX4mP13p455w0Rd}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-eX4mP13p455w0Rd}  # the bad password is only for testing. Change when deploying for reals
     # command: start --optimized
     network_mode: service:tailscale
     # ports:
