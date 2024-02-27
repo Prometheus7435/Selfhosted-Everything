@@ -1,3 +1,6 @@
 * Keycloak
 ** The Start
 This is going to be the first container that I'm going to set up. Why? Because it will serve as the SSO for as many of the other services that I can.
+
+** The Goal
+I don't want to have logins for each service that I'm gonna run. Having a Single Sign On (SSO) application will make it a lot easier. Plus I'll be able to place some kind of centralized access control list (ACL).
