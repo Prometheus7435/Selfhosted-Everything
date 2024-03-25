@@ -11,43 +11,43 @@ services:
       - net_admin
       - sys_module
     environment:
-      # - TS_AUTH_ONCE=true
+      - TS_AUTH_ONCE=true
       - TS_HOSTNAME="keycloak"
       - TS_USERSPACE=false
       - TS_STATE_DIR=/var/lib/tailscale
       - "TS_EXTRA_ARGS=--advertise-tags=tag:container --reset"
     command: tailscaled
 
-  postgres_db:
-    image: postgres:16
-    volumes:
-      - ./keycloak/data/postgres16:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: keycloak
-      POSTGRES_USER: ${POSTGRES_USER:-keycloak}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-eX4mP13p455w0Rd}
+  # postgres_db:
+  #   image: postgres:16
+  #   volumes:
+  #     - ./keycloak/data/postgres16:/var/lib/postgresql/data
+  #   environment:
+  #     POSTGRES_DB: keycloak
+  #     POSTGRES_USER: ${POSTGRES_USER:-keycloak}
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-eX4mP13p455w0Rd}
 
-  keycloak:
-    # build: .
-    image: quay.io/keycloak/keycloak:23.0.6
-    environment:
-      KC_LOG_LEVEL: debug
-      KC_DB: postgres
-      KC_DB_URL: 'jdbc:postgresql://postgres_db/keycloak'
-      KC_DB_USERNAME: ${POSTGRES_USER:-keycloak}
-      KC_DB_PASSWORD: ${POSTGRES_PASSWORD:-eX4mP13p455w0Rd}
-      KC_DB_SCHEMA: public
-      KC_HOSTNAME: ${KC_HOSTNAME:-keycloak.tail0301a.ts.net}
-      KC_HOSTNAME_STRICT_HTTPS: true
-      KC_HOSTNAME_STRICT: true
-      KC_PROXY: edge
-      HTTP_ADDRESS_FORWARDING: true
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-eX4mP13p455w0Rd}  # the bad password is only for testing. Change when deploying for reals
-    # command: start --optimized
-    network_mode: service:tailscale
-    # ports:
-    #   - '127.0.0.1:8080:8080'
-    depends_on:
-      # - tailscale
-      - postgres_db
+  # keycloak:
+  #   # build: .
+  #   image: quay.io/keycloak/keycloak:23.0.6
+  #   environment:
+  #     KC_LOG_LEVEL: debug
+  #     KC_DB: postgres
+  #     KC_DB_URL: 'jdbc:postgresql://postgres_db/keycloak'
+  #     KC_DB_USERNAME: ${POSTGRES_USER:-keycloak}
+  #     KC_DB_PASSWORD: ${POSTGRES_PASSWORD:-eX4mP13p455w0Rd}
+  #     KC_DB_SCHEMA: public
+  #     KC_HOSTNAME: ${KC_HOSTNAME:-keycloak.tail0301a.ts.net}
+  #     KC_HOSTNAME_STRICT_HTTPS: true
+  #     KC_HOSTNAME_STRICT: true
+  #     KC_PROXY: edge
+  #     HTTP_ADDRESS_FORWARDING: true
+  #     KEYCLOAK_ADMIN: admin
+  #     KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-eX4mP13p455w0Rd}  # the bad password is only for testing. Change when deploying for reals
+  #   # command: start --optimized
+  #   network_mode: service:tailscale
+  #   # ports:
+  #   #   - '127.0.0.1:8080:8080'
+  #   depends_on:
+  #     # - tailscale
+  #     - postgres_db
