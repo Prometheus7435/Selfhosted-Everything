@@ -62,13 +62,13 @@ Update: Yeah, after thinking about this more I don't want a setup that complex. 
 **** [[https://tandoor.dev/][Tandoor]]
 ** Smart Home
 This falls into how close can I come to Star Trek or SARA from Eureka?
-*** [[https://www.home-assistant.io/][Home Assistant]]
+*** DONE [[https://www.home-assistant.io/][Home Assistant]]
 *** Voice control / assistant
 ** Media
 *** Video
 **** Jellyfin
 *** AudioBooks
-**** AudioBookShelf
+**** DONE AudioBookShelf
 - maybe [[https://github.com/ChrisLAS/notes/blob/master/audiobookshelf-docker-compose.yml][like this]]?
 *** eBooks
 *** Music
