@@ -12,6 +12,8 @@ If this is the (ever changing) list of services, what order should I impliment t
 * Long Term Plans
 If this comes to fruition and I'm widely using it in the house, I probably should have something other than a single server running it all. Something high availability (HA) or Kubernetes related with some off-site fail over capabilities. But that's hard so I'll think about it later.
 
+Update: Yeah, after thinking about this more I don't want a setup that complex. A single server that host everything, with regular backups, and if it goes down for maintainance so be it. Nothing I'm running here "should" be critical that it can't be down for a half hour every now and then.
+
 * Services
 ** Project Management
 *** [[https://github.com/makeplane/plane][Plane]]
