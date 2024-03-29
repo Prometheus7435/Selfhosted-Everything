@@ -1,7 +1,8 @@
+---
 version: "3.7"
 services:
   tailscale:
-    hostname: books.tail0301a.ts.net             # This will become the tailscale device name
+    hostname: books             # This will become the tailscale device name
     image: tailscale/tailscale
     volumes:
       - ./audiobookshelf/tailscale:/var/lib/tailscale        # State data will be stored in this directory
@@ -9,13 +10,14 @@ services:
     cap_add:                                    # Required for tailscale to work
       - net_admin
       - sys_module
-    command: tailscaled
+    environment:
+      - TS_AUTHKEY=<YOUR TAILSCALE AUTH KEY HERE>
+      - TS_USERSPACE=true
+    # command: tailscaled
 
   audiobookshelf:
     image: ghcr.io/advplyr/audiobookshelf:latest
     network_mode: service:tailscale
-#    ports:
-#      - 13378:80
     volumes:
       - ./audiobookshelf/Audiobooks:/audiobooks
       - ./audiobookshelf/Podcasts:/podcasts

@@ -1,10 +1,10 @@
 * Selfhosted-Everything
-notes and plans on how I will selfhost as much as possible
+notes and plans on how I will selfhost as much as possible. Not all of these will be implemented, but will be tested.
 
 * Infrastructure
 Most of this will live on my main server as part of / VMs. I'll work to make as much of this NixOS based and will use VMs / Podman containers to seperate roles and security. Tailscale will be used a lot for the comms backend.
 
-For most of this, it might be easier to use Podman (preferably) or Docker containers with a Tailscale connection built in ([[https://github.com/ChrisLAS/notes/blob/master/audiobookshelf-docker-compose.yml][Audiobookshelf example]]). There's a way to [[https://tailscale.com/kb/1153/enabling-https][use Tailscale to enable HTTPS]] for you so you don't get the scary warnings (even though Tailscale itself is secure).
+For most of this, it might be easier to use Podman (preferably) or Docker containers with a Tailscale connection built in ([[https://github.com/ChrisLAS/notes/blob/master/audiobookshelf-docker-compose.yml][Audiobookshelf example]]). There's a way to [[https://tailscale.com/kb/1153/enabling-https][use Tailscale to enable HTTPS]] for you so you don't get the scary warnings (even though Tailscale itself is secure). One thing I've noticed after figuring out Tailscale with Keycloak. I can get it added to my list of machines, but if I have to restart it I'll get a new machine in my list. Hopefully, this is a config change I need to make and not a everytime the container is spun up it creates a new identity sort of thing.
 
 * Order of Operations
 If this is the (ever changing) list of services, what order should I impliment them? One thing I would like is to have a single sign on (SSO) service so I don't have a million logins to manage. So should I figure out Keycloak first? Or limit my services to ones that have SSO options?
@@ -17,22 +17,22 @@ Update: Yeah, after thinking about this more I don't want a setup that complex. 
 * Services
 ** Project Management
 *** [[https://github.com/makeplane/plane][Plane]]
-*** To-Dos
-**** [[https://github.com/ovh/utask][uTask]] (?)
+# *** To-Dos
+*** [[https://github.com/ovh/utask][uTask]] (?)
 *** OpenProject (?)
 *** [[https://github.com/paperless-ngx/paperless-ngx][PaperNGX]]
 ** [[https://awesome-selfhosted.net/tags/inventory-management.html][Inventory]]
 *** [[https://snipeitapp.com/][Snipe-IT]]
-** Development
+** Dev Work
 *** [[https://about.gitea.com/][Gitea]]
 *** [[https://www.jenkins.io/][Jenkins]] (?)
 *** [[https://forgejo.org/][Forgejo]] (hard fork of Gitea)
-*** Ticketing System
-*** Wiki
-**** [[https://js.wiki/][WikiJS]]
-**** [[https://github.com/wikimedia/mediawiki][Media Wiki]]
-**** [[http://dokuwiki.org/][DookuWiki]]
-** Single Sign On
+** Ticketing System
+** Wiki
+*** [[https://js.wiki/][WikiJS]]
+*** [[https://github.com/wikimedia/mediawiki][Media Wiki]]
+*** [[http://dokuwiki.org/][DookuWiki]]
+** Single Sign On (SSO)
 *** DONE [[./keycloak/keycloak-compose.yml][Keycloak]]
 - [[https://www.keycloak.org/][Keycloak]] seems to be the "default" SSO for a bunch of self-hosted folks
 - [[https://du.nkel.dev/blog/2024-02-10_keycloak-docker-compose-nginx/][docker setup blog]]
@@ -49,19 +49,21 @@ Update: Yeah, after thinking about this more I don't want a setup that complex. 
 ** Monitoring
 *** Prometheus (?)
 *** Grafana (?)
+*** Kibana (?)
+** Cloud Storage
+*** [[https://nextcloud.com/][Nextcloud]]
 ** Personal
 *** Calendar
 *** Push-Notifications
 *** Contacts
-*** Cloud Storage
-**** [[https://nextcloud.com/][Nextcloud]]
 *** Personal Relationship Management
 **** [[https://github.com/monicahq/monica/tree/4.x][Monica]]
 *** Food
 **** [[https://tandoor.dev/][Tandoor]]
-** Automation
+** Smart Home
+This falls into how close can I come to Star Trek or SARA from Eureka?
 *** [[https://www.home-assistant.io/][Home Assistant]]
-  - Voice control
+*** Voice control / assistant
 ** Media
 *** Video
 **** Jellyfin
@@ -72,6 +74,8 @@ Update: Yeah, after thinking about this more I don't want a setup that complex. 
 *** Music
 *** Photos
 - computer vision for better search
+**** Immich
+**** Photo Prism
 *** Manga / Graphic Novel
 **** Stump
 **** Kavita
@@ -87,7 +91,8 @@ Update: Yeah, after thinking about this more I don't want a setup that complex. 
 *** ZFS
 *** Remote Sites
 *** Windows backups
+Can I please not have to implement this? It would be so much easier if I could just zfs snapshot everything.
 ** Recovery Procedures
 ** Misc
 *** [[https://github.com/babybuddy/babybuddy][Baby Buddy]]
-  if you have a family and want to overdo /everything/!
+If you have a family and want to overdo /everything/!

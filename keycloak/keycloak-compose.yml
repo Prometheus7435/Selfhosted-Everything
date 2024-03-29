@@ -54,7 +54,7 @@ services:
       KC_DB_SCHEMA: public
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: password
-      KC_HOSTNAME: <HOSTNAME FROM ABOVE TAILSCALE DOCKER>.<YOUR TAILSCALE DNS>
+      KC_HOSTNAME: docker-keycloak.<YOUR TAILSCALE DNS>
     # ports:
     #   - 8080:8080
     depends_on:
