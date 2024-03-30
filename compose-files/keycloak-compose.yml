@@ -8,10 +8,10 @@ services:
     hostname: docker-keycloak             # This will become the tailscale device name
     # network_mode: "host"
     environment:
-      - TS_AUTHKEY=<YOUR TAILSCALE AUTH KEY HERE>
+      - TS_AUTHKEY=KEYCLOAK-KEY
       - TS_USERSPACE=true
     volumes:
-      - ./tailscale/state:/var/lib/tailscale        # State data will be stored in this directory
+      - DATA-DIR/keycloak/tailscale/state:/var/lib/tailscale        # State data will be stored in this directory
       - /dev/net/tun:/dev/net/tun           # Required for tailscale to work
     cap_add:                                    # Required for tailscale to work
       - net_admin
@@ -26,7 +26,7 @@ services:
   postgres:
     image: postgres:16
     volumes:
-      - ./postgres_data:/var/lib/postgresql/data
+      - DATA-DIR/keycloak/postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: keycloak
       POSTGRES_USER: keycloak
@@ -54,7 +54,7 @@ services:
       KC_DB_SCHEMA: public
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: password
-      KC_HOSTNAME: docker-keycloak.<YOUR TAILSCALE DNS>
+      KC_HOSTNAME: docker-keycloak.TAILSCALE-DNS
     # ports:
     #   - 8080:8080
     depends_on:

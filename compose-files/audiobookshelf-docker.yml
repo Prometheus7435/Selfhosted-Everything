@@ -5,13 +5,13 @@ services:
     hostname: docker-books             # This will become the tailscale device name
     image: tailscale/tailscale
     volumes:
-      - ./audiobookshelf/tailscale:/var/lib/tailscale        # State data will be stored in this directory
+      - DATA-DIR/audiobookshelf/tailscale:/var/lib/tailscale        # State data will be stored in this directory
       - "/dev/net/tun:/dev/net/tun"           # Required for tailscale to work
     cap_add:                                    # Required for tailscale to work
       - net_admin
       - sys_module
     environment:
-      - TS_AUTHKEY=<YOUR TAILSCALE AUTH KEY HERE>
+      - TS_AUTHKEY=AUDIOBOOKSHELF-KEY
       - TS_USERSPACE=true
     # command: tailscaled
     healthcheck:
@@ -21,10 +21,10 @@ services:
     image: ghcr.io/advplyr/audiobookshelf:latest
     network_mode: service:tailscale
     volumes:
-      - ./audiobookshelf/Audiobooks:/audiobooks
-      - ./audiobookshelf/Podcasts:/podcasts
-      - ./audiobookshelf/config:/config
-      - ./audiobookshelf/metadata>:/metadata
+      - DATA-DIR/audiobookshelf/Audiobooks:/audiobooks
+      - DATA-DIR/audiobookshelf/Podcasts:/podcasts
+      - DATA-DIR/audiobookshelf/config:/config
+      - DATA-DIR/audiobookshelf/metadata>:/metadata
     depends_on:
       tailscale:
         condition: service_healthy
