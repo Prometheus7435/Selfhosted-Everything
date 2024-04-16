@@ -8,25 +8,29 @@ services:
     hostname: docker-keycloak             # This will become the tailscale device name
     # network_mode: "host"
     environment:
-      - TS_AUTHKEY=KEYCLOAK-KEY
+      - TS_AUTHKEY="${KEYCLOAK-KEY}"
       - TS_USERSPACE=true
     volumes:
-      - DATA-DIR/keycloak/tailscale/state:/var/lib/tailscale        # State data will be stored in this directory
-      - /dev/net/tun:/dev/net/tun           # Required for tailscale to work
-    cap_add:                                    # Required for tailscale to work
-      - net_admin
-      - sys_module
+      - ./data/keycloak/tailscale/state:/var/lib/tailscale        # State data will be stored in this directory
+      # - "/dev/net/tun:/dev/net/tun"           # Required for tailscale to work
+    # cap_add:                                    # Required for tailscale to work
+    #   - net_admin
+    #   - sys_module
     ports:
+      # 100.70.21.47
       - 8080:8080
       - 5432:5432
     # command: tailscaled
     healthcheck:
       test: "exit 0"
+    env_file:
+      - ./.env
+    # restart: always
 
   postgres:
     image: postgres:16
     volumes:
-      - DATA-DIR/keycloak/postgres_data:/var/lib/postgresql/data
+      - ./data/keycloak/postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: keycloak
       POSTGRES_USER: keycloak
@@ -41,6 +45,8 @@ services:
     depends_on:
       docker-keycloak:
         condition: service_healthy
+    env_file:
+      - ./.env
 
   keycloak:
     image: quay.io/keycloak/keycloak:23.0.6
@@ -54,7 +60,7 @@ services:
       KC_DB_SCHEMA: public
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: password
-      KC_HOSTNAME: docker-keycloak.TAILSCALE-DNS
+      KC_HOSTNAME: docker-keycloak.tail0301a.ts.net # TAILSCALE-DNS
     # ports:
     #   - 8080:8080
     depends_on:
@@ -63,8 +69,10 @@ services:
     network_mode: service:docker-keycloak
     # networks:
       # - keycloak_network
+    env_file:
+      - ./.env
 
-networks: {}
+# networks: {}
 #   keycloak_network:
 #     driver: bridge
 
