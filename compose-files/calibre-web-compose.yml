@@ -1,0 +1,41 @@
+---
+# version: "3.7"
+services:
+  docker-calibre:
+    hostname: docker-calibre             # This will become the tailscale device name
+    image: tailscale/tailscale
+    volumes:
+      - ./data/calibre/tailscale:/var/lib/tailscale        # State data will be stored in this directory
+      # - "/dev/net/tun:/dev/net/tun"           # Required for tailscale to work
+    ports:
+      - 8083:8083
+    environment:
+      - TS_AUTHKEY=tskey-auth-kEPaUS4JUt11CNTRL-szx3Cv89vh6aDhSkkByci6RqeJ2JpExy #"${CALIBRE-KEY}"
+      - TS_USERSPACE=true
+    # command: tailscaled
+    healthcheck:
+      test: "exit 0"
+    env_file:
+      - ./.env
+
+  calibre-web:
+    image: lscr.io/linuxserver/calibre-web:latest
+    container_name: calibre-web
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - DOCKER_MODS=linuxserver/mods:universal-calibre #optional
+      - OAUTHLIB_RELAX_TOKEN_SCOPE=1 #optional
+    volumes:
+      - ./data/calibre/config:/config
+      - ./data/calibre/library:/books
+    # ports:
+    #   - 8083:8083
+    restart: unless-stopped
+    depends_on:
+      docker-calibre:
+        condition: service_healthy
+    network_mode: service:docker-calibre
+    env_file:
+      - ./.env

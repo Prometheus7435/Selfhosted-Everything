@@ -13,7 +13,7 @@ services:
     # ports:
     #   - 80:80
     environment:
-      - TS_AUTHKEY="${AUDIOBOOKSHELF-KEY}"
+      - TS_AUTHKEY=tskey-auth-kyjvRvq4AM11CNTRL-JMnQ3priRgG5qBs838SZeGavgmZ3LVCF #"${AUDIOBOOKSHELF-KEY}"
       - TS_USERSPACE=true
     # command: tailscaled
     healthcheck:
@@ -23,7 +23,6 @@ services:
 
   audiobookshelf:
     image: ghcr.io/advplyr/audiobookshelf:latest
-    # network_mode: service:tailscale
     volumes:
       - ./data/audiobookshelf/Audiobooks:/audiobooks
       - ./data/audiobookshelf/Podcasts:/podcasts

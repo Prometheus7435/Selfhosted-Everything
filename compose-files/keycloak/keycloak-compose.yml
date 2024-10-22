@@ -5,10 +5,10 @@ version: "3.7"
 services:
   docker-keycloak:
     image: tailscale/tailscale:stable
-    hostname: docker-keycloak             # This will become the tailscale device name
+    hostname: keycloak             # This will become the tailscale device name
     # network_mode: "host"
     environment:
-      - TS_AUTHKEY="${KEYCLOAK-KEY}"
+      - TS_AUTHKEY=
       - TS_USERSPACE=true
     volumes:
       - ./data/keycloak/tailscale/state:/var/lib/tailscale        # State data will be stored in this directory

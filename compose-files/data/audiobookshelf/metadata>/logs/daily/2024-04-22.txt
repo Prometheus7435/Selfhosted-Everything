@@ -1,0 +1,32 @@
+{"timestamp":"2024-04-22 00:00:08.010","source":"Server.js:170","message":"=== Starting Server ===","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:00:08.011","source":"Server.js:101","message":"[Server] Init v2.8.1","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:00:08.017","source":"Database.js:178","message":"[Database] Initializing db at \"/config/absdatabase.sqlite\"","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:00:08.102","source":"Database.js:206","message":"[Database] Db connection was successful","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:00:08.253","source":"Database.js:167","message":"[Database] Db initialized with models: user, library, libraryFolder, book, podcast, podcastEpisode, libraryItem, mediaProgress, series, bookSeries, author, bookAuthor, collection, collectionBook, playlist, playlistMediaItem, device, playbackSession, feed, feedEpisode, setting, customMetadataProvider","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:00:08.282","source":"LogManager.js:66","message":"[LogManager] Init current daily log filename: 2024-04-22.txt","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:00:08.295","source":"BackupManager.js:260","message":"[BackupManager] 0 Backups Found","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:00:08.296","source":"BackupManager.js:57","message":"[BackupManager] Auto Backups are disabled","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:00:08.308","source":"Watcher.js:53","message":"[Watcher] Initializing watcher for \"test\".","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:00:08.321","source":"Server.js:319","message":"Listening on port :80","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:00:08.328","source":"Watcher.js:79","message":"[Watcher] \"test\" Ready","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:04:51.433","source":"Server.js:170","message":"=== Starting Server ===","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:04:51.434","source":"Server.js:101","message":"[Server] Init v2.8.1","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:04:51.440","source":"Database.js:178","message":"[Database] Initializing db at \"/config/absdatabase.sqlite\"","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:04:51.503","source":"Database.js:206","message":"[Database] Db connection was successful","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:04:51.664","source":"Database.js:167","message":"[Database] Db initialized with models: user, library, libraryFolder, book, podcast, podcastEpisode, libraryItem, mediaProgress, series, bookSeries, author, bookAuthor, collection, collectionBook, playlist, playlistMediaItem, device, playbackSession, feed, feedEpisode, setting, customMetadataProvider","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:04:51.697","source":"LogManager.js:66","message":"[LogManager] Init current daily log filename: 2024-04-22.txt","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:04:51.716","source":"BackupManager.js:260","message":"[BackupManager] 0 Backups Found","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:04:51.717","source":"BackupManager.js:57","message":"[BackupManager] Auto Backups are disabled","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:04:51.736","source":"Watcher.js:53","message":"[Watcher] Initializing watcher for \"test\".","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:04:51.749","source":"Server.js:319","message":"Listening on port :80","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:04:51.754","source":"Watcher.js:79","message":"[Watcher] \"test\" Ready","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:05:10.324","source":"SocketAuthority.js:108","message":"[SocketAuthority] Socket Connected zEhmMp383JswMHITAAAB","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:05:35.884","source":"SocketAuthority.js:135","message":"[SocketAuthority] Socket zEhmMp383JswMHITAAAB disconnected from client \"admin\" after 25560ms (Reason: client namespace disconnect)","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:05:48.701","source":"SocketAuthority.js:108","message":"[SocketAuthority] Socket Connected Rgqa5x0SiP6bO3qVAAAD","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:06:06.390","source":"SocketAuthority.js:135","message":"[SocketAuthority] Socket Rgqa5x0SiP6bO3qVAAAD disconnected from client \"shyfox\" after 17690ms (Reason: client namespace disconnect)","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:06:16.382","source":"SocketAuthority.js:108","message":"[SocketAuthority] Socket Connected rX5Z9XxrkXBUKjltAAAF","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:06:29.988","source":"SocketAuthority.js:135","message":"[SocketAuthority] Socket rX5Z9XxrkXBUKjltAAAF disconnected from client \"admin\" after 13606ms (Reason: client namespace disconnect)","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:07:06.077","source":"Auth.js:124","message":"[Auth] openid: User not found, checking existing with username \"jen\"","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:07:06.084","source":"Auth.js:146","message":"[Auth] openid: Auto-registering user with sub \"57b5ce4e-3309-4d89-865f-76a78f81f365\" [object Object]","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:07:07.141","source":"SocketAuthority.js:108","message":"[SocketAuthority] Socket Connected -ANXJ92ShqHEthweAAAH","levelName":"INFO","level":2}
+{"timestamp":"2024-04-22 00:08:55.309","source":"SocketAuthority.js:135","message":"[SocketAuthority] Socket -ANXJ92ShqHEthweAAAH disconnected from client \"jen\" after 108168ms (Reason: transport close)","levelName":"INFO","level":2}

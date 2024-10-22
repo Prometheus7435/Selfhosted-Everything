@@ -7,3 +7,5 @@ I don't want to have logins for each service that I'm gonna run. Having a Single
 
 ** Where I'm At
 I just got it working such that I can access the site through my Tailscale network. The difficult part for this initial push was how to get the container to use the tailscale network.
+
+Now that I have it up, I've been able to also set up a simple case of AudioBookShelf and get the authentication routed through Keycloak using Tailscale. This is a minimal version of what I'm trying to do with the whole setup (yay!).

@@ -1,0 +1,71 @@
+---
+version: '3.7'
+
+services:
+  docker-forgejo:
+    image: tailscale/tailscale:stable
+    hostname: docker-forgejo             # This will become the tailscale device name
+    environment:
+      - TS_AUTHKEY=tskey-auth-kiXghV4ZU311CNTRL-X2pTjhgSNL1aZU368TcVJ1mbLfnwfpxqA #"${FORGEJO-KEY}"
+      - TS_USERSPACE=true
+      # - USER_UID='1000'
+      # - USER_GID='1000'
+    volumes:
+      - ./data/forgejo/tailscale:/var/lib/tailscale
+      # - "/dev/net/tun:/dev/net/tun"           # Required for tailscale to work
+
+    # user: '1000:1000'
+    ports:
+      - 3000:3000
+      - 2222:22
+    healthcheck:
+      test: "exit 0"
+    env_file:
+      - ./.env
+    # restart: unless-stopped
+
+  server:
+    image: codeberg.org/forgejo/forgejo:1.21-rootless
+    container_name: forgejo
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - FORGEJO__database__DB_TYPE=postgres
+      - FORGEJO__database__HOST=docker-forgejo.tail0301a.ts.net:5432
+      - FORGEJO__database__NAME=forgejo
+      - FORGEJO__database__USER=forgejo
+      - FORGEJO__database__PASSWD=forgejo
+    restart: always
+
+    volumes:
+      - ./data/forgejo:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+
+    network_mode: service:docker-forgejo
+
+    depends_on:
+      db:
+        condition: service_healthy
+    # depends_on:
+      # - db
+
+  db:
+    image: postgres:14
+    restart: always
+    environment:
+      - POSTGRES_USER=forgejo
+      - POSTGRES_PASSWORD=forgejo
+      - POSTGRES_DB=forgejo
+
+    volumes:
+      - ./data/forgejo/postgres:/var/lib/postgresql/data
+
+    network_mode: service:docker-forgejo
+
+    depends_on:
+      docker-forgejo:
+        condition: service_healthy
+
+    healthcheck:
+      test: "exit 0"
