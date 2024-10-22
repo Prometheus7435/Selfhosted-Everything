@@ -11,7 +11,7 @@ services:
       - TS_AUTHKEY=
       - TS_USERSPACE=true
     volumes:
-      - ./data/keycloak/tailscale/state:/var/lib/tailscale        # State data will be stored in this directory
+      - ../data/keycloak/tailscale/state:/var/lib/tailscale        # State data will be stored in this directory
       # - "/dev/net/tun:/dev/net/tun"           # Required for tailscale to work
     # cap_add:                                    # Required for tailscale to work
     #   - net_admin
