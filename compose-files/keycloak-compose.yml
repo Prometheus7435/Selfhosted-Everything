@@ -3,53 +3,38 @@
 version: "3.7"
 
 services:
-  docker-keycloak:
-    image: tailscale/tailscale:stable
-    hostname: keycloak             # This will become the tailscale device name
-    # network_mode: "host"
-    environment:
-      - TS_AUTHKEY=
-      - TS_USERSPACE=true
+  tailscale:
+    image: tailscale/tailscale:latest
     volumes:
-      - ../data/keycloak/tailscale/state:/var/lib/tailscale        # State data will be stored in this directory
-      # - "/dev/net/tun:/dev/net/tun"           # Required for tailscale to work
-    # cap_add:                                    # Required for tailscale to work
-    #   - net_admin
-    #   - sys_module
+      - ../data/keycloak/tailscale:/var/lib/tailscale        # State data will be stored in this directory
+      - ../data/keycloak/tls:/mnt/tls
+    environment:
+      - TS_HOSTNAME=keycloak
+      - TS_STATE_DIR=../data/keycloak/tailscale  #/var/run/tailscale
     ports:
-      # 100.70.21.47
-      - 8080:8080
+      - 80:8080
       - 5432:5432
-    # command: tailscaled
     healthcheck:
       test: "exit 0"
-    env_file:
-      - ./.env
-    # restart: always
+    restart: unless-stopped
 
   postgres:
     image: postgres:16
     volumes:
-      - ./data/keycloak/postgres_data:/var/lib/postgresql/data
+      - ../data/keycloak/postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: keycloak
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: 123456
     healthcheck:
       test: "exit 0"
-    # ports:
-    #   - 5432:5432
-    network_mode: service:docker-keycloak
-    # networks:
-    #   - keycloak_network
+    network_mode: service:tailscale
     depends_on:
-      docker-keycloak:
+      tailscale:
         condition: service_healthy
-    env_file:
-      - ./.env
 
   keycloak:
-    image: quay.io/keycloak/keycloak:23.0.6
+    image: quay.io/keycloak/keycloak:26.0.1
     command: start-dev
     environment:
       KC_DB: postgres
@@ -60,22 +45,14 @@ services:
       KC_DB_SCHEMA: public
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: password
-      KC_HOSTNAME: docker-keycloak.tail0301a.ts.net # TAILSCALE-DNS
-    # ports:
-    #   - 8080:8080
+      # KC_HOSTNAME: keycloak.tail0301a.ts.net # TAILSCALE-DNS
     depends_on:
       postgres:
         condition: service_healthy
-    network_mode: service:docker-keycloak
-    # networks:
-      # - keycloak_network
-    env_file:
-      - ./.env
+    network_mode: service:tailscale
 
-# networks: {}
-#   keycloak_network:
-#     driver: bridge
-
-# volumes:
-#   postgres_data:
-#     driver: local
+volumes:
+  tailscale:
+  tls:
+  postgres:
+  keycloak:
