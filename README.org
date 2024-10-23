@@ -101,6 +101,22 @@ If you have a family and want to overdo /everything/!
 
 * Troubleshooting
 ** Remove-orphans
-When you run docker-compose I usually get a warning saying there's orphan containers and that I should remove them. Seems correct, right? When I started adding that flag to my process, ie src_emacs-lisp[:exports code]{docker-compose -f keycloak up --remove-orphans}, it would cause the other containers to get knocked off the tailscale network. I messed with all the networking bits until I tried not using the remove-orphans flag and then it worked. I'm thinking that the tailscale container is one of those "orphans" even though I'm using it. So let there be orphans and I'll clean them up manually later on.
-** Tailscale Keys
-More of a quirk than anything. I'm using ephemeral keys to manage the containers, each getting their own unique one. When you do this there's several options that Tailscale gives you to tweak. One to make sure to select are the "Ephemeral" and "Resusable" switches. This will, most importantly, remove the container from your list of machines when it disconnects from the network. You'll want this because without it, when you reconnect it'll have an incremented number attached. So instead of a "docker-keycloak" that you can access with "docker-keycloak.<your tailscale network>" you'll get a "docker-keycloak-1" that you have to access with "docker-keycloak-1.<your tailscale network>" messing up all the links you've set up. Making sure the "Reusable" switch is selected will let you use the same key if the machine was kicked off the net.
+When you run docker-compose I usually get a warning saying there's orphan containers and that I should remove them. Seems correct, right? When I started adding that flag to my process, ie docker-compose -f keycloak up --remove-orphans, it would cause the other containers to get knocked off the tailscale network. I messed with all the networking bits until I tried not using the remove-orphans flag and then it worked. I'm thinking that the tailscale container is one of those "orphans" even though I'm using it. So let there be orphans and I'll clean them up manually later on.
+** Tailscale
+There's a better way of doing this that I found [[https://alexklibisz.com/2024/09/07/accessing-docker-compose-application-tailscale-tls][here]]. Now I don't need to use an ephemeral key but can sign in to Tailscale on the first run of the container.
+
+*** TLS everything
+Next step is to use Tailscale to get tls certs. When the container is running then run
+#+begin_src bash
+  docker compose -f <compose file here> exec tailscale \
+    /bin/sh -c "tailscale cert --cert-file /mnt/tls/cert.pem --key-file /mnt/tls/cert.key <container name>.mytailnet.ts.net"
+#+end_src
+
+If all goes well you should see
+#+begin_src
+  Wrote public cert to /mnt/tls/cert.pem
+  Wrote private key to /mnt/tls/cert.key
+#+end_src
+
+
++More of a quirk than anything. I'm using ephemeral keys to manage the containers, each getting their own unique one. When you do this there's several options that Tailscale gives you to tweak. One to make sure to select are the "Ephemeral" and "Resusable" switches. This will, most importantly, remove the container from your list of machines when it disconnects from the network. You'll want this because without it, when you reconnect it'll have an incremented number attached. So instead of a "docker-keycloak" that you can access with "docker-keycloak.<your tailscale network>" you'll get a "docker-keycloak-1" that you have to access with "docker-keycloak-1.<your tailscale network>" messing up all the links you've set up. Making sure the "Reusable" switch is selected will let you use the same key if the machine was kicked off the net.+
