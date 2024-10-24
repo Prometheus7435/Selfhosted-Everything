@@ -1,0 +1,57 @@
+services:
+  tailscale:
+    image: tailscale/tailscale:latest
+    volumes:
+      - ../data/nextcloud/tailscale:/var/lib/tailscale        # State data will be stored in this directory
+      - ../data/nextcloud/tls:/mnt/tls
+    environment:
+      - TS_HOSTNAME=nextcloud
+      - TS_STATE_DIR=../data/nextcloud/tailscale  #/var/run/tailscale
+    ports:
+      - 80:80
+      - 8080:8080
+      - 5432:5432
+    healthcheck:
+      test: "exit 0"
+    restart: always
+
+  db:
+    image: postgres:17
+    restart: unless-stopped # always
+    volumes:
+      - ../data/nextcloud/db:/var/lib/postgresql/data
+    network_mode: service:tailscale
+    environment:
+      POSTGRES_DB: nextcloud
+      POSTGRES_PASSWORD: nextcloud
+      POSTGRES_USER: nextcloud
+    depends_on:
+      tailscale:
+        condition: service_healthy
+
+  redis:
+    image: redis:alpine
+    restart: unless-stopped #always
+    depends_on:
+      tailscale:
+        condition: service_healthy
+
+  app:
+    image: nextcloud:30
+    restart: unless-stopped
+    network_mode: service:tailscale
+    depends_on:
+      - redis
+      - db
+      - tailscale
+    volumes:
+      - ../data/nextcloud:/var/www/html
+    environment:
+      - POSTGRES_PASSWORD=nextcloud
+      - POSTGRES_DATABASE=nextcloud
+      - POSTGRES_USER=nextcloud
+      - POSTGRES_HOST=db
+# volumes:
+#   nextcloud:
+#   db:
+#   tailscale:

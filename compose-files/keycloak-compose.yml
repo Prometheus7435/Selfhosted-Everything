@@ -19,7 +19,7 @@ services:
     restart: unless-stopped
 
   postgres:
-    image: postgres:16
+    image: postgres:17
     volumes:
       - ../data/keycloak/postgres_data:/var/lib/postgresql/data
     environment:
