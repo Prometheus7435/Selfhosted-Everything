@@ -24,12 +24,12 @@ services:
       - searxng
     volumes:
       - ./data/searxng/valkey-data2:/data
-    cap_drop:
-      - ALL
-    cap_add:
-      - SETGID
-      - SETUID
-      - DAC_OVERRIDE
+    # cap_drop:
+    #   - ALL
+    # cap_add:
+    #   - SETGID
+    #   - SETUID
+    #   - DAC_OVERRIDE
     logging:
       driver: "json-file"
       options:
@@ -63,8 +63,10 @@ services:
         condition: service_healthy
 
 
-networks:
-  searxng:
+# networks:
+#   searxng:
 
 volumes:
+  tailscale:
+  tls:
   valkey-data2:
