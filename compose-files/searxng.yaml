@@ -32,6 +32,10 @@ services:
       options:
         max-size: "1m"
         max-file: "1"
+    depends_on:
+      tailscale:
+        condition: service_healthy
+
 
   searxng:
     container_name: searxng
