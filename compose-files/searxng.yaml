@@ -20,7 +20,7 @@ services:
     restart: unless-stopped
     network_mode: service:tailscale
     volumes:
-      - valkey-data2:/data
+      - ../data/searnxng/valkey-data2:/data
     cap_drop:
       - ALL
     cap_add:
@@ -46,7 +46,7 @@ services:
     restart: unless-stopped
     network_mode: service:tailscale
     volumes:
-      - ./data/searxng:/etc/searxng:rw
+      - ../data/searxng:/etc/searxng:rw
     environment:
       - SEARXNG_BASE_URL=https://${SEARXNG_HOSTNAME:-localhost}/
       - UWSGI_WORKERS=4
