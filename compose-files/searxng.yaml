@@ -22,6 +22,9 @@ services:
     network_mode: service:tailscale
     volumes:
       - ../data/searxng/valkey-data2:/data
+    environment:
+      - PGID=977
+      - PUID=977
     # cap_drop:
     #   - ALL
     # cap_add:
@@ -52,6 +55,8 @@ services:
       - SEARXNG_BASE_URL=https://${SEARXNG_HOSTNAME:-localhost}/
       - UWSGI_WORKERS=4
       - UWSGI_THREADS=4
+      - PGID=977
+      - PUID=977
     # cap_drop:
     #   - ALL
     # cap_add:
