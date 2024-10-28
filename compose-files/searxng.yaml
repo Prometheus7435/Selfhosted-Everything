@@ -13,31 +13,31 @@ services:
       test: "exit 0"
     restart: unless-stopped
 
-  redis:
-    container_name: redis
-    image: docker.io/valkey/valkey:8-alpine
-    command: valkey-server --save 30 1 --loglevel warning
-    restart: unless-stopped
-    network_mode: service:tailscale
-    volumes:
-      - ./data/searxng/valkey-data2:/data
-    cap_drop:
-      - ALL
-    cap_add:
-      - CHOWN
-      - SETGID
-      - SETUID
-      - DAC_OVERRIDE
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1m"
-        max-file: "1"
-    depends_on:
-      tailscale:
-        condition: service_healthy
-    healthcheck:
-      test: "exit 0"
+  # redis:
+  #   container_name: redis
+  #   image: docker.io/valkey/valkey:8-alpine
+  #   command: valkey-server --save 30 1 --loglevel warning
+  #   restart: unless-stopped
+  #   network_mode: service:tailscale
+  #   volumes:
+  #     - ./data/searxng/valkey-data2:/data
+  #   cap_drop:
+  #     - ALL
+  #   cap_add:
+  #     - CHOWN
+  #     - SETGID
+  #     - SETUID
+  #     - DAC_OVERRIDE
+  #   logging:
+  #     driver: "json-file"
+  #     options:
+  #       max-size: "1m"
+  #       max-file: "1"
+  #   depends_on:
+  #     tailscale:
+  #       condition: service_healthy
+  #   healthcheck:
+  #     test: "exit 0"
 
 
   searxng:
@@ -63,8 +63,8 @@ services:
         max-size: "1m"
         max-file: "1"
     depends_on:
-      # tailscale:
-      redis:
+      tailscale:
+      # redis:
         condition: service_healthy
 
 volumes:
