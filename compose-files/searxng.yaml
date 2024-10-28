@@ -7,6 +7,7 @@ services:
     environment:
       - TS_HOSTNAME=searxng
       - TS_STATE_DIR=../data/searxng/tailscale  #/var/run/tailscale
+      - TS_AUTHKEY=
     ports:
       - "8080:8080"
       # - "127.0.0.1:8080:8080"
@@ -28,7 +29,7 @@ services:
     # cap_drop:
     #   - ALL
     # cap_add:
-    #   # - CHOWN
+      # - CHOWN
     #   - SETGID
     #   - SETUID
     #   - DAC_OVERRIDE
@@ -53,14 +54,14 @@ services:
       - ../data/searxng:/etc/searxng:rw
     environment:
       - SEARXNG_BASE_URL=https://${SEARXNG_HOSTNAME:-localhost}/
-      - UWSGI_WORKERS=4
-      - UWSGI_THREADS=4
+      # - UWSGI_WORKERS=4
+      # - UWSGI_THREADS=4
       - PGID=977
       - PUID=977
     # cap_drop:
     #   - ALL
     # cap_add:
-    #   - CHOWN
+      # - CHOWN
     #   - SETGID
     #   - SETUID
     logging:
