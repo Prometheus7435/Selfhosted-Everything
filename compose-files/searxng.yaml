@@ -24,7 +24,7 @@ services:
     cap_drop:
       - ALL
     cap_add:
-      - CHOWN
+      # - CHOWN
       - SETGID
       - SETUID
       - DAC_OVERRIDE
@@ -55,8 +55,8 @@ services:
       - ALL
     cap_add:
       - CHOWN
-      # - SETGID
-      # - SETUID
+      - SETGID
+      - SETUID
     logging:
       driver: "json-file"
       options:
