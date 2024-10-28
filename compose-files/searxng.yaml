@@ -68,7 +68,7 @@ services:
       # redis:
         condition: service_healthy
 
-volumes:
-  tailscale:
-  tls:
-  valkey-data2:
+# volumes:
+#   tailscale:
+#   tls:
+#   valkey-data2:
