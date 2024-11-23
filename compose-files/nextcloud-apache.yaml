@@ -40,6 +40,8 @@ services:
     image: nextcloud:30
     restart: unless-stopped
     network_mode: service:tailscale
+    hostname: "nextcloud"
+    container_name: "nextcloud"
     depends_on:
       - redis
       - db
