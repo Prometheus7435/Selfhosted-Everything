@@ -24,10 +24,10 @@ services:
   audiobookshelf:
     image: ghcr.io/advplyr/audiobookshelf:latest
     volumes:
-      - ./data/audiobookshelf/Audiobooks:/audiobooks
-      - ./data/audiobookshelf/Podcasts:/podcasts
-      - ./data/audiobookshelf/config:/config
-      - ./data/audiobookshelf/metadata>:/metadata
+      - ../data/audiobookshelf/Audiobooks:/audiobooks
+      - ../data/audiobookshelf/Podcasts:/podcasts
+      - ../data/audiobookshelf/config:/config
+      - ../data/audiobookshelf/metadata>:/metadata
     depends_on:
       docker-books:
         condition: service_healthy
