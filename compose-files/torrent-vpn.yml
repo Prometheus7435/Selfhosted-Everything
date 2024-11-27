@@ -1,3 +1,4 @@
+---
 version: "3"
 services:
   gluetun:
@@ -19,12 +20,12 @@ services:
       - 8989:8989 # Sonarr
       - 9696:9696 # Prowlarr
     volumes:
-      - /home/ubuntu/docker/arr-stack/gluetun:/gluetun
+      - ../data/arr-stack/gluetun:/gluetun
     environment:
       # See https://github.com/qdm12/gluetun-wiki/tree/main/setup#setup
       - VPN_SERVICE_PROVIDER="private internet access"
-      - OPENVPN_USER=
-      - OPENVPN_PASSWORD=
+      - OPENVPN_USER=${PIA_USER}
+      - OPENVPN_PASSWORD=${PIA_PASSWORD}
       - SERVER_REGIONS=America
       # - VPN_TYPE=wireguard
       # OpenVPN:
@@ -38,6 +39,7 @@ services:
       # Server list updater
       # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/servers.md#update-the-vpn-servers-list
       - UPDATER_PERIOD=24h
+    env_file: .env
 
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent
@@ -46,11 +48,11 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/London
+      - TZ=America/New_York
       - WEBUI_PORT=8085
     volumes:
-      - /home/ubuntu/docker/arr-stack/qbittorrent:/config
-      - /home/ubuntu/docker/arr-stack/qbittorrent/downloads:/downloads
+      - ../data/arr-stack/qbittorrent:/config
+      - ../data/arr-stack/qbittorrent/downloads:/downloads
     depends_on:
       - gluetun
     restart: always
@@ -66,8 +68,8 @@ services:
       - AUTO_UPDATE=true #optional
       - RUN_OPTS= #optional
     volumes:
-      - /home/ubuntu/docker/arr-stack/jackett/data:/config
-      - /home/ubuntu/docker/arr-stack/jackett/blackhole:/downloads
+      - ../data/arr-stack/jackett/data:/config
+      - ../data/arr-stack/jackett/blackhole:/downloads
     restart: unless-stopped
 
   sonarr:
@@ -79,9 +81,10 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - /home/ubuntu/docker/arr-stack/sonarr/data:/config
-      - /home/ubuntu/docker/arr-stack/sonarr/tvseries:/tv #optional
-      - /home/ubuntu/docker/arr-stack/sonarr/downloadclient-downloads:/downloads #optional
+      - ../data/arr-stack/sonarr/data:/config
+      - ../data/arr-stack/sonarr/tvseries:/tv #optional
+      - ../data/arr-stack/sonarr/movies:/movies #optional
+      - ../data/arr-stack/sonarr/downloadclient-downloads:/downloads #optional
     restart: unless-stopped
 
   prowlarr:
@@ -93,5 +96,5 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - /home/ubuntu/docker/arr-stack/prowlarr/data:/config
+      - ../data/arr-stack/prowlarr/data:/config
     restart: unless-stopped

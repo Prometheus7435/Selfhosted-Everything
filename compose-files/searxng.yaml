@@ -1,13 +1,14 @@
 services:
+
   tailscale:
     image: tailscale/tailscale:latest
     volumes:
       - ../data/searxng/tailscale:/var/lib/tailscale        # State data will be stored in this directory
       - ../data/searxng/tls:/mnt/tls
     environment:
-      - TS_HOSTNAME=searxng
-      - TS_STATE_DIR=../data/searxng/tailscale  #/var/run/tailscale
-      - TS_AUTHKEY=
+      TS_HOSTNAME: "searxng"
+      TS_STATE_DIR: ../data/searxng/tailscale  #/var/run/tailscale
+      TS_AUTHKEY:
     ports:
       # - "8080:8080"
       - "80:8080"
@@ -45,7 +46,6 @@ services:
     healthcheck:
       test: "exit 0"
 
-
   searxng:
     container_name: searxng
     image: docker.io/searxng/searxng:latest
@@ -54,7 +54,7 @@ services:
     volumes:
       - ../data/searxng:/etc/searxng:rw
     environment:
-      - SEARXNG_BASE_URL=https://${SEARXNG_HOSTNAME:-localhost}/
+      - SEARXNG_BASE_URL="http://searxng.tail0301a.ts.net"
       # - UWSGI_WORKERS=4
       # - UWSGI_THREADS=4
       - PGID=977
@@ -62,7 +62,7 @@ services:
     # cap_drop:
     #   - ALL
     # cap_add:
-      # - CHOWN
+    #   - CHOWN
     #   - SETGID
     #   - SETUID
     logging:

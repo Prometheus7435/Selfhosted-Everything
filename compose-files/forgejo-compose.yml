@@ -6,7 +6,7 @@ services:
     image: tailscale/tailscale:stable
     hostname: docker-forgejo             # This will become the tailscale device name
     environment:
-      - TS_AUTHKEY=tskey-auth-kiXghV4ZU311CNTRL-X2pTjhgSNL1aZU368TcVJ1mbLfnwfpxqA #"${FORGEJO-KEY}"
+      - TS_AUTHKEY= #"${FORGEJO-KEY}"
       - TS_USERSPACE=true
       # - USER_UID='1000'
       # - USER_GID='1000'
