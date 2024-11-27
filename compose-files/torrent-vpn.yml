@@ -46,7 +46,7 @@ services:
     container_name: qbittorrent
     network_mode: "service:gluetun"
     environment:
-      - PUID=1000
+       - PUID=1000
       - PGID=1000
       - TZ=America/New_York
       - WEBUI_PORT=8085

@@ -8,10 +8,15 @@ services:
     environment:
       - TS_HOSTNAME=nextcloud
       - TS_STATE_DIR=/mnt/alpha/docker/apps/nextcloud_aio_mastercontainer/tailscale  #/var/run/tailscale
+      - TS_USERSPACE=false
+      - TS_EXTRA_ARGS=--advertise-tags=tag:container
     ports:
       - 80:80
       - 8180:8080
       - 8443:8443
+    cap_add:
+      - net_admin
+      - sys_module
     healthcheck:
       test: "exit 0"
     restart: unless-stopped
