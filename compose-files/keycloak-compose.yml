@@ -1,16 +1,13 @@
 ---
-# version: "3"
-# version: "3.7"
-
 services:
   tailscale:
     image: tailscale/tailscale:latest
     volumes:
-      - ../data/keycloak/tailscale:/var/lib/tailscale        # State data will be stored in this directory
-      - ../data/keycloak/tls:/mnt/tls
+      - ${DATA_DIR}/keycloak/tailscale:/var/lib/tailscale        # State data will be stored in this directory
+      - ${DATA_DIR}/keycloak/tls:/mnt/tls
     environment:
       - TS_HOSTNAME=keycloak
-      - TS_STATE_DIR=../data/keycloak/tailscale  #/var/run/tailscale
+      - TS_STATE_DIR=${DATA_DIR}/keycloak/tailscale  #/var/run/tailscale
     ports:
       - 80:8080
       - 5432:5432
@@ -21,11 +18,11 @@ services:
   postgres:
     image: postgres:17
     volumes:
-      - ../data/keycloak/postgres_data:/var/lib/postgresql/data
+      - ${DATA_DIR}/keycloak/postgres_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: keycloak
-      POSTGRES_USER: keycloak
-      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: ${KEYCLOAK_POSTGRES_DB}
+      POSTGRES_USER: ${KEYCLOAK_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${KEYCLOAK_POSTGRES_PASSWORD}
     healthcheck:
       test: "exit 0"
     network_mode: service:tailscale
@@ -40,12 +37,12 @@ services:
       KC_DB: postgres
       # KC_DB_URL_HOST: postgres
       KC_DB_URL_DATABASE: keycloak
-      KC_DB_PASSWORD: 123456
-      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
+      KC_DB_USERNAME: ${KEYCLOAK_USERNAME}
       KC_DB_SCHEMA: public
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: password
-      # KC_HOSTNAME: keycloak.tail0301a.ts.net # TAILSCALE-DNS
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      # KC_HOSTNAME: keycloak.${TS_DOMAIN}
     depends_on:
       postgres:
         condition: service_healthy
