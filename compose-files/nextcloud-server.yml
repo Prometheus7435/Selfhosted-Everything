@@ -2,13 +2,13 @@ services:
   tailscale:
     image: tailscale/tailscale:latest
     volumes:
-      - ${DATA_DIR}/nextcloud-test/tailscale:/var/lib/tailscale
-      - ${DATA_DIR}/nextcloud-test/tailscale/tls:/mnt/tls
+      - ${DATA_DIR}/nextcloud/tailscale:/var/lib/tailscale
+      - ${DATA_DIR}/nextcloud/tailscale/tls:/mnt/tls
       # - /dev/net/tun:/dev/net/tun
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       - TS_HOSTNAME=nextcloud
-      - TS_STATE_DIR=${DATA_DIR}/nextcloud-test/tailscale  #/var/run/tailscale
+      - TS_STATE_DIR=${DATA_DIR}/nextcloud/tailscale  #/var/run/tailscale
       # - TS_USERSPACE=false
       - TS_AUTHKEY=${NEXTCLOUD_KEY}
     ports:
@@ -29,7 +29,7 @@ services:
     restart: always
     # network_mode: service:tailscale
     volumes:
-      - ${DATA_DIR}/nextcloud-test/db:/var/lib/postgresql/data
+      - ${DATA_DIR}/nextcloud/db:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=db
       - POSTGRES_USER=nextcloud
@@ -48,10 +48,10 @@ services:
     restart: always
     network_mode: service:tailscale
     volumes:
-      - ${DATA_DIR}/nextcloud-test/nextcloud:/var/www/html
-      - ${DATA_DIR}/nextcloud-test/nextcloud/data:/var/www/html/data
-      - ${DATA_DIR}/nextcloud-test/nextcloud/config:/var/www/html/config
-      - ${DATA_DIR}/nextcloud-test/nextcloud/apps:/var/www/html/apps
+      - ${DATA_DIR}/nextcloud:/var/www/html
+      - ${DATA_DIR}/nextcloud/data:/var/www/html/data
+      - ${DATA_DIR}/nextcloud/config:/var/www/html/config
+      - ${DATA_DIR}/nextcloud/apps:/var/www/html/apps
     environment:
       - POSTGRES_HOST=db
       - POSTGRES_DB=db
