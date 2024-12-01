@@ -22,7 +22,7 @@ services:
       - ${DATA_DIR}/arr-stack/gluetun:/gluetun
     environment:
       # See https://github.com/qdm12/gluetun-wiki/tree/main/setup#setup
-      - VPN_SERVICE_PROVIDER="private internet access"
+      - VPN_SERVICE_PROVIDER=private internet access
       - OPENVPN_USER=${PIA_USER}
       - OPENVPN_PASSWORD=${PIA_PASSWORD}
       - SERVER_REGIONS=America
@@ -37,7 +37,7 @@ services:
       # Server list updater
       # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/servers.md#update-the-vpn-servers-list
       - UPDATER_PERIOD=24h
-    # env_file: .env
+    env_file: .env
 
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent
