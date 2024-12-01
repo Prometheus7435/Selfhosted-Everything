@@ -1,10 +1,9 @@
 ---
-version: "3"
+# version: "3"
 services:
   gluetun:
     image: qmcgaw/gluetun
     container_name: gluetun
-    # Hostname to use for container, required in some instances for the rest of the stack to each other endpoints
     hostname: gluetun
     # line above must be uncommented to allow external containers to connect.
     # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/connect-a-container-to-gluetun.md#external-container-to-gluetun
@@ -20,7 +19,7 @@ services:
       - 8989:8989 # Sonarr
       - 9696:9696 # Prowlarr
     volumes:
-      - ../data/arr-stack/gluetun:/gluetun
+      - ${DATA_DIR}/arr-stack/gluetun:/gluetun
     environment:
       # See https://github.com/qdm12/gluetun-wiki/tree/main/setup#setup
       - VPN_SERVICE_PROVIDER="private internet access"
@@ -34,7 +33,6 @@ services:
       # Wireguard:
       # - WIREGUARD_PRIVATE_KEY=<YOUR_PRIVATE_KEY> # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/providers/nordvpn.md#obtain-your-wireguard-private-key
       # - WIREGUARD_ADDRESSES=10.5.0.2/32
-      # Timezone for accurate log times
       - TZ=America/New_York
       # Server list updater
       # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/servers.md#update-the-vpn-servers-list
@@ -51,8 +49,8 @@ services:
       - TZ=America/New_York
       - WEBUI_PORT=8085
     volumes:
-      - ../data/arr-stack/qbittorrent:/config
-      - ../data/arr-stack/qbittorrent/downloads:/downloads
+      - ${DATA_DIR}/arr-stack/qbittorrent:/config
+      - ${DATA_DIR}/arr-stack/qbittorrent/downloads:/downloads
     depends_on:
       - gluetun
     restart: always
@@ -68,8 +66,8 @@ services:
       - AUTO_UPDATE=true #optional
       - RUN_OPTS= #optional
     volumes:
-      - ../data/arr-stack/jackett/data:/config
-      - ../data/arr-stack/jackett/blackhole:/downloads
+      - ${DATA_DIR}/arr-stack/jackett/data:/config
+      - ${DATA_DIR}/arr-stack/jackett/blackhole:/downloads
     restart: unless-stopped
 
   sonarr:
@@ -81,10 +79,10 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - ../data/arr-stack/sonarr/data:/config
-      - ../data/arr-stack/sonarr/tvseries:/tv #optional
-      - ../data/arr-stack/sonarr/movies:/movies #optional
-      - ../data/arr-stack/sonarr/downloadclient-downloads:/downloads #optional
+      - ${DATA_DIR}/arr-stack/sonarr/data:/config
+      - ${DATA_DIR}/arr-stack/sonarr/tvseries:/tv #optional
+      - ${DATA_DIR}/arr-stack/sonarr/movies:/movies #optional
+      - ${DATA_DIR}/arr-stack/sonarr/downloadclient-downloads:/downloads #optional
     restart: unless-stopped
 
   prowlarr:
@@ -96,5 +94,5 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - ../data/arr-stack/prowlarr/data:/config
+      - ${DATA_DIR}/arr-stack/prowlarr/data:/config
     restart: unless-stopped
