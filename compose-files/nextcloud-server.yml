@@ -11,6 +11,7 @@ services:
       - TS_STATE_DIR=${DATA_DIR}/nextcloud/tailscale  #/var/run/tailscale
       - TS_USERSPACE=true
       - TS_AUTHKEY=${NEXTCLOUD_KEY}
+      - TS_ACCEPT_DNS=true
     ports:
       - 80:80
       # - 8080:8080
