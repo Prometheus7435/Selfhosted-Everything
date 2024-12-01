@@ -5,7 +5,6 @@ services:
     image: qmcgaw/gluetun
     container_name: gluetun
     hostname: gluetun
-    # line above must be uncommented to allow external containers to connect.
     # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/connect-a-container-to-gluetun.md#external-container-to-gluetun
     cap_add:
       - NET_ADMIN
@@ -37,7 +36,7 @@ services:
     container_name: qbittorrent
     network_mode: "service:gluetun"
     environment:
-       - PUID=1000
+      - PUID=1000
       - PGID=1000
       - TZ=America/New_York
       - WEBUI_PORT=8085
