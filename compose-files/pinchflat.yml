@@ -1,15 +1,14 @@
 ---
 services:
-
   tailscale:
     image: tailscale/tailscale:latest
     volumes:
-      - ${DATA_DIR}/nextcloud/tailscale:/var/lib/tailscale
-      - ${DATA_DIR}/nextcloud/tailscale/tls:/mnt/tls
+      - ${DATA_DIR}/pinchflat/tailscale:/var/lib/tailscale
+      - ${DATA_DIR}/pinchflat/tailscale/tls:/mnt/tls
       # - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
-      - TS_HOSTNAME=nextcloud
-      - TS_STATE_DIR=${DATA_DIR}/nextcloud/tailscale  #/var/run/tailscale
+      - TS_HOSTNAME=pinchflat
+      - TS_STATE_DIR=${DATA_DIR}/pinchflat/tailscale  #/var/run/tailscale
       # - TS_USERSPACE=false
       - TS_AUTHKEY=${PINCHFLAT_KEY}
       - TS_ACCEPT_DNS=true
@@ -22,8 +21,6 @@ services:
     environment:
       - TZ=America/New_York
     network_mode: service:tailscale
-    # ports:
-    #   - '8945:8945'
     volumes:
       - ${DATA_DIR}/pinchflat/config:/config
       - ${DATA_DIR}/pinchflat/downloads:/downloads
