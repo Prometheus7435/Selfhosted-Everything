@@ -9,7 +9,7 @@ services:
     environment:
       - TS_HOSTNAME=nextcloud
       - TS_STATE_DIR=${DATA_DIR}/nextcloud/tailscale  #/var/run/tailscale
-      # - TS_USERSPACE=false
+      - TS_USERSPACE=true
       - TS_AUTHKEY=${NEXTCLOUD_KEY}
     ports:
       - 80:80
