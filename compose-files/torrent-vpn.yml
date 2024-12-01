@@ -26,17 +26,10 @@ services:
       - OPENVPN_USER=${PIA_USER}
       - OPENVPN_PASSWORD=${PIA_PASSWORD}
       - SERVER_REGIONS=USA
-      # - VPN_TYPE=wireguard
-      # OpenVPN:
-      # - OPENVPN_USER=
-      # - OPENVPN_PASSWORD=
-      # Wireguard:
-      # - WIREGUARD_PRIVATE_KEY=<YOUR_PRIVATE_KEY> # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/providers/nordvpn.md#obtain-your-wireguard-private-key
-      # - WIREGUARD_ADDRESSES=10.5.0.2/32
       - TZ=America/New_York
       # Server list updater
       # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/servers.md#update-the-vpn-servers-list
-      # - UPDATER_PERIOD=24h
+      - UPDATER_PERIOD=24h
     env_file: .env
 
   qbittorrent:
