@@ -24,8 +24,8 @@ services:
     #   - sys_module
     # healthcheck:
     #   test: "exit 0"
-    healthcheck:
-      test: "exit 0"
+    # healthcheck:
+    #   test: "exit 0"
     restart: unless-stopped
 
   db:
@@ -38,11 +38,11 @@ services:
       - POSTGRES_DB=db
       - POSTGRES_USER=nextcloud
       - POSTGRES_PASSWORD=${NEXTCLOUD_DB_PASSWORD}
-    healthcheck:
-      test: "exit 0"
-    depends_on:
-      tailscale:
-        condition: service_healthy
+    # healthcheck:
+    #   test: "exit 0"
+    # depends_on:
+    #   tailscale:
+    #     condition: service_healthy
 
     # secrets:
     #   - postgres_db
