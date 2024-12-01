@@ -36,7 +36,7 @@ services:
       - TZ=America/New_York
       # Server list updater
       # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/servers.md#update-the-vpn-servers-list
-      - UPDATER_PERIOD=24h
+      # - UPDATER_PERIOD=24h
     env_file: .env
 
   qbittorrent:
