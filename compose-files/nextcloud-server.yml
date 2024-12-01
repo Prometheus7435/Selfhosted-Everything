@@ -31,7 +31,7 @@ services:
   db:
     image: postgres:17
     restart: always
-    network_mode: service:tailscale
+    # network_mode: service:tailscale
     volumes:
       - ${DATA_DIR}/nextcloud/db:/var/lib/postgresql/data
     environment:
