@@ -4,7 +4,7 @@ services:
   gluetun:
     image: qmcgaw/gluetun
     container_name: gluetun
-    hostname: gluetun
+    # hostname: gluetun
     # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/connect-a-container-to-gluetun.md#external-container-to-gluetun
     cap_add:
       - NET_ADMIN
