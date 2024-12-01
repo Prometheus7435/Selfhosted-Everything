@@ -10,9 +10,9 @@ services:
     environment:
       - TS_HOSTNAME=nextcloud
       - TS_STATE_DIR=${DATA_DIR}/nextcloud/tailscale  #/var/run/tailscale
-      - TS_USERSPACE=true
+      # - TS_USERSPACE=true
       - TS_AUTHKEY=${NEXTCLOUD_KEY}
-      - TS_ACCEPT_DNS=true
+      # - TS_ACCEPT_DNS=true
     ports:
       - 80:80
       # - 8080:8080
@@ -24,18 +24,26 @@ services:
     #   - sys_module
     # healthcheck:
     #   test: "exit 0"
+    healthcheck:
+      test: "exit 0"
     restart: unless-stopped
 
   db:
     image: postgres:17
     restart: always
-    # network_mode: service:tailscale
+    network_mode: service:tailscale
     volumes:
       - ${DATA_DIR}/nextcloud/db:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=db
       - POSTGRES_USER=nextcloud
       - POSTGRES_PASSWORD=${NEXTCLOUD_DB_PASSWORD}
+    healthcheck:
+      test: "exit 0"
+    depends_on:
+      tailscale:
+        condition: service_healthy
+
     # secrets:
     #   - postgres_db
     #   - postgres_password
@@ -69,11 +77,14 @@ services:
       - NEXTCLOUD_KEEP_DISABLED_APPS=false
 
       - REDIS_HOST=redis
-
     depends_on:
-      - redis
-      - db
-      - tailscale
+      db:
+        condition: service_healthy
+    # depends_on:
+    #   - redis
+    #   - db
+    #   - tailscale
+
     # secrets:
     #   - nextcloud_admin_password
     #   - nextcloud_admin_user
