@@ -77,13 +77,13 @@ services:
       - NEXTCLOUD_KEEP_DISABLED_APPS=false
 
       - REDIS_HOST=redis
-    depends_on:
-      db:
-        condition: service_healthy
     # depends_on:
-    #   - redis
-    #   - db
-    #   - tailscale
+    #   db:
+    #     condition: service_healthy
+    depends_on:
+      - redis
+      - db
+      - tailscale
 
     # secrets:
     #   - nextcloud_admin_password
