@@ -25,7 +25,7 @@ services:
       - VPN_SERVICE_PROVIDER=private internet access
       - OPENVPN_USER=${PIA_USER}
       - OPENVPN_PASSWORD=${PIA_PASSWORD}
-      - SERVER_REGIONS=America
+      - SERVER_REGIONS=USA
       # - VPN_TYPE=wireguard
       # OpenVPN:
       # - OPENVPN_USER=
