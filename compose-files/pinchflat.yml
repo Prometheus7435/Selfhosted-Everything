@@ -6,7 +6,8 @@ services:
       - ${DATA_DIR}/pinchflat/tailscale:/var/lib/tailscale
       - ${DATA_DIR}/pinchflat/tailscale/tls:/mnt/tls
       # - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /dev/net/tun:/dev/net/tun
+      # - /dev/net/tun:/dev/net/tun
+       - ${DATA_DIR}/pinchflat/var/run/tailscale:/var/run/tailscale
     environment:
       - TS_HOSTNAME=pinchflat
       - TS_STATE_DIR=${DATA_DIR}/pinchflat/tailscale  #/var/run/tailscale
