@@ -1,28 +1,30 @@
 ---
 services:
-  tailscale:
-    image: tailscale/tailscale:latest
-    volumes:
-      - ${DATA_DIR}/pinchflat/tailscale:/var/lib/tailscale
-      - ${DATA_DIR}/pinchflat/tailscale/tls:/mnt/tls
-      # - /var/run/docker.sock:/var/run/docker.sock:ro
-      # - /dev/net/tun:/dev/net/tun
-      - ${DATA_DIR}/pinchflat/var/run/tailscale:/var/run/tailscale
-    environment:
-      - TS_HOSTNAME=pinchflat
-      - TS_STATE_DIR=${DATA_DIR}/pinchflat/tailscale  #/var/run/tailscale
-      - TS_USERSPACE=true
-      - TS_AUTHKEY=${PINCHFLAT_KEY}
-      - TS_ACCEPT_DNS=true
-    ports:
-      - '8945:8945'
-    restart: unless-stopped
+  # tailscale:
+  #   image: tailscale/tailscale:latest
+  #   volumes:
+  #     - ${DATA_DIR}/pinchflat/tailscale:/var/lib/tailscale
+  #     - ${DATA_DIR}/pinchflat/tailscale/tls:/mnt/tls
+  #     # - /var/run/docker.sock:/var/run/docker.sock:ro
+  #     # - /dev/net/tun:/dev/net/tun
+  #     - ${DATA_DIR}/pinchflat/var/run/tailscale:/var/run/tailscale
+  #   environment:
+  #     - TS_HOSTNAME=pinchflat
+  #     - TS_STATE_DIR=${DATA_DIR}/pinchflat/tailscale  #/var/run/tailscale
+  #     - TS_USERSPACE=true
+  #     - TS_AUTHKEY=${PINCHFLAT_KEY}
+  #     - TS_ACCEPT_DNS=true
+  #   ports:
+  #     - '8945:8945'
+  #   restart: unless-stopped
 
   pinchflat:
     image: ghcr.io/kieraneglin/pinchflat:latest
     environment:
       - TZ=America/New_York
-    network_mode: service:tailscale
+    # network_mode: service:tailscale
+    ports:
+      - '8945:8945'
     volumes:
       - ${DATA_DIR}/pinchflat/config:/config
       - ${DATA_DIR}/pinchflat/downloads:/downloads
