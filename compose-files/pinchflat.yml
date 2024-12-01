@@ -12,6 +12,7 @@ services:
       - TS_STATE_DIR=${DATA_DIR}/nextcloud/tailscale  #/var/run/tailscale
       # - TS_USERSPACE=false
       - TS_AUTHKEY=${PINCHFLAT_KEY}
+      - TS_ACCEPT_DNS=true
     ports:
       - '8945:8945'
     restart: unless-stopped
