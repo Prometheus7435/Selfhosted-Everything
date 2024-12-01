@@ -5,7 +5,7 @@ services:
       - ${DATA_DIR}/nextcloud/tailscale:/var/lib/tailscale
       - ${DATA_DIR}/nextcloud/tailscale/tls:/mnt/tls
       # - /dev/net/tun:/dev/net/tun
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       - TS_HOSTNAME=nextcloud
       - TS_STATE_DIR=${DATA_DIR}/nextcloud/tailscale  #/var/run/tailscale
