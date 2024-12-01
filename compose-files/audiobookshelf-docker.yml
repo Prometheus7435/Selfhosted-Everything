@@ -1,36 +1,38 @@
 ---
-version: "3.7"
+# version: "3.7"
 services:
-  docker-books:
-    hostname: docker-books             # This will become the tailscale device name
+  tailscale:
     image: tailscale/tailscale
     volumes:
-      - ./data/audiobookshelf/tailscale:/var/lib/tailscale        # State data will be stored in this directory
+      - ${DATA_DIR}/audiobookshelf/tailscale:/var/lib/tailscale        # State data will be stored in this directory
+      - ${DATA_DIR}/audiobookshelf/tls:/mnt/tls
       # - "/dev/net/tun:/dev/net/tun"           # Required for tailscale to work
     # cap_add:                                    # Required for tailscale to work
     #   - net_admin
     #   - sys_module
-    # ports:
-    #   - 80:80
+    ports:
+      - 8000:80
     environment:
-      - TS_AUTHKEY= #"${AUDIOBOOKSHELF-KEY}"
-      - TS_USERSPACE=true
+      - TS_AUTHKEY= ${AUDIOBOOKSHELF_KEY}
+      - TS_HOSTNAME=books
+      - TS_STATE_DIR=${DATA_DIR}/audiobookshelf/tailscale
+      # - TS_USERSPACE=true
     # command: tailscaled
     healthcheck:
       test: "exit 0"
-    env_file:
-      - ./.env
+    # env_file:
+    #   - ./.env
 
   audiobookshelf:
     image: ghcr.io/advplyr/audiobookshelf:latest
     volumes:
-      - ../data/audiobookshelf/Audiobooks:/audiobooks
-      - ../data/audiobookshelf/Podcasts:/podcasts
-      - ../data/audiobookshelf/config:/config
-      - ../data/audiobookshelf/metadata>:/metadata
+      - ${DATA_DIR}/audiobookshelf/Audiobooks:/audiobooks
+      - ${DATA_DIR}/audiobookshelf/Podcasts:/podcasts
+      - ${DATA_DIR}/audiobookshelf/config:/config
+      - ${DATA_DIR}/audiobookshelf/metadata:/metadata
     depends_on:
-      docker-books:
+      tailscale:
         condition: service_healthy
-    network_mode: service:docker-books
-    env_file:
-      - ./.env
+    network_mode: service:tailscale
+    # env_file:
+    #   - ./.env
