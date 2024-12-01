@@ -1,14 +1,13 @@
 services:
-
   tailscale:
     image: tailscale/tailscale:latest
     volumes:
-      - ../data/searxng/tailscale:/var/lib/tailscale        # State data will be stored in this directory
-      - ../data/searxng/tls:/mnt/tls
+      - ${DATA_DIR}/searxng/tailscale:/var/lib/tailscale        # State data will be stored in this directory
+      - ${DATA_DIR}/searxng/tls:/mnt/tls
     environment:
       TS_HOSTNAME: "searxng"
-      TS_STATE_DIR: ../data/searxng/tailscale  #/var/run/tailscale
-      TS_AUTHKEY:
+      TS_STATE_DIR: ${DATA_DIR}/searxng/tailscale  #/var/run/tailscale
+      TS_AUTHKEY: ${SEARXNG_TS_KEY}
     ports:
       # - "8080:8080"
       - "80:8080"
@@ -24,7 +23,7 @@ services:
     restart: unless-stopped
     network_mode: service:tailscale
     volumes:
-      - ../data/searxng/valkey-data2:/data
+      - ${DATA_DIR}/searxng/valkey-data2:/data
     environment:
       - PGID=977
       - PUID=977
@@ -52,19 +51,13 @@ services:
     restart: unless-stopped
     network_mode: service:tailscale
     volumes:
-      - ../data/searxng:/etc/searxng:rw
+      - ${DATA_DIR}/searxng:/etc/searxng:rw
     environment:
-      - SEARXNG_BASE_URL="http://searxng.tail0301a.ts.net"
+      - SEARXNG_BASE_URL="http://searxng.${TS_DOMAIN}"
       # - UWSGI_WORKERS=4
       # - UWSGI_THREADS=4
       - PGID=977
       - PUID=977
-    # cap_drop:
-    #   - ALL
-    # cap_add:
-    #   - CHOWN
-    #   - SETGID
-    #   - SETUID
     logging:
       driver: "json-file"
       options:
@@ -75,7 +68,8 @@ services:
       # redis:
         condition: service_healthy
 
-# volumes:
-#   tailscale:
-#   tls:
-#   valkey-data2:
+volumes:
+  tailscale:
+  tls:
+  valkey-data2:
+  searxng:
