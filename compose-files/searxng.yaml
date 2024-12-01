@@ -27,13 +27,6 @@ services:
     environment:
       - PGID=977
       - PUID=977
-    # cap_drop:
-    #   - ALL
-    # cap_add:
-      # - CHOWN
-    #   - SETGID
-    #   - SETUID
-    #   - DAC_OVERRIDE
     logging:
       driver: "json-file"
       options:
