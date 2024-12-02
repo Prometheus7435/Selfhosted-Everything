@@ -32,6 +32,7 @@ services:
     environment:
       - PGID=977
       - PUID=977
+      - vm.overcommit_memory=1
     network_mode: service:searxng-tailscale
     logging:
       driver: "json-file"
