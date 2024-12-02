@@ -1,10 +1,10 @@
 ---
 services:
-  books-tailscale:
+  audiobooks-tailscale:
     image: tailscale/tailscale:latest
-    hostname: books
+    hostname: audiobooks
     environment:
-      - TS_HOSTNAME=books
+      - TS_HOSTNAME=audiobooks
       # - TS_STATE_DIR=/var/run/tailscale
       - TS_STATE_DIR=${DATA_DIR}/audiobookshelf/tailscale
       - TS_AUTHKEY=${AUDIOBOOKSHELF_KEY}
@@ -30,9 +30,9 @@ services:
       - ${DATA_DIR}/audiobookshelf/config:/config
       - ${DATA_DIR}/audiobookshelf/metadata:/metadata
     depends_on:
-      books-tailscale:
+      audiobooks-tailscale:
         condition: service_healthy
-    network_mode: service:books-tailscale
+    network_mode: service:audiobooks-tailscale
 
 volumes:
   audiobookshelf:
