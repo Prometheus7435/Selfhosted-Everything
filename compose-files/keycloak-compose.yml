@@ -1,6 +1,6 @@
 ---
 services:
-  tailscale:
+  keycloak-tailscale:
     image: tailscale/tailscale:latest
     environment:
       - TS_HOSTNAME=keycloak
@@ -31,7 +31,7 @@ services:
       POSTGRES_PASSWORD: ${KEYCLOAK_POSTGRES_PASSWORD}
     healthcheck:
       test: "exit 0"
-    network_mode: service:tailscale
+    network_mode: service:keycloak-tailscale
     depends_on:
       tailscale:
         condition: service_healthy
@@ -52,7 +52,7 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    network_mode: service:tailscale
+    network_mode: service:keycloak-tailscale
 
 volumes:
   tailscale:

@@ -120,3 +120,8 @@ If all goes well you should see
 
 
 +More of a quirk than anything. I'm using ephemeral keys to manage the containers, each getting their own unique one. When you do this there's several options that Tailscale gives you to tweak. One to make sure to select are the "Ephemeral" and "Resusable" switches. This will, most importantly, remove the container from your list of machines when it disconnects from the network. You'll want this because without it, when you reconnect it'll have an incremented number attached. So instead of a "docker-keycloak" that you can access with "docker-keycloak.<your tailscale network>" you'll get a "docker-keycloak-1" that you have to access with "docker-keycloak-1.<your tailscale network>" messing up all the links you've set up. Making sure the "Reusable" switch is selected will let you use the same key if the machine was kicked off the net.+
+
+*** Multiple Containers At Once
+This is probably not the correct way to approach it, but after much searching I couldn't find anything saying how to run individual containers each with tailscale. The problem I kept running into was the first container would work but when I started the second container it would cut the tailscale connection of the first. Basically, only one container would connect to tailscale at once.
+
+Best I can figure is this was a combination of a name collision with the containers (they all show up as "compose-files-tailscale-1") and ports (they would read 0.0.0.0:<your port here>). So I did two things; in the compose files I renamed the tailscale service to something unique, fixing the name collision, and change the exterior ports, avoiding port collisions.
