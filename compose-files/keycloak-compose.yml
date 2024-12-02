@@ -2,16 +2,21 @@
 services:
   tailscale:
     image: tailscale/tailscale:latest
+    environment:
+      - TS_HOSTNAME=keycloak
+      - TS_STATE_DIR=/var/run/tailscale
+      # - TS_STATE_DIR=${DATA_DIR}/keycloak/tailscale  #/var/run/tailscale
+      - TS_AUTHKEY=${KEYCLOAK_TS_KEY}
     volumes:
       - ${DATA_DIR}/keycloak/tailscale:/var/lib/tailscale        # State data will be stored in this directory
       - ${DATA_DIR}/keycloak/tls:/mnt/tls
-    environment:
-      - TS_HOSTNAME=keycloak
-      - TS_STATE_DIR=${DATA_DIR}/keycloak/tailscale  #/var/run/tailscale
-      - TS_AUTHKEY=${KEYCLOAK_TS_KEY}
+      - /dev/net/tun:/dev/net/tun           # Required for tailscale to work
     ports:
       - 8080:8080
       - 5432:5432
+    cap_add:                                    # Required for tailscale to work
+      - net_admin
+      - sys_module
     healthcheck:
       test: "exit 0"
     restart: unless-stopped
@@ -43,7 +48,7 @@ services:
       KC_DB_SCHEMA: public
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-      # KC_HOSTNAME: keycloak.${TS_DOMAIN}
+      KC_HOSTNAME: keycloak.${TS_DOMAIN}
     depends_on:
       postgres:
         condition: service_healthy

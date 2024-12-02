@@ -1,27 +1,29 @@
 ---
-# version: "3.7"
 services:
-  tailscale:
-    image: tailscale/tailscale
+  books-tailscale:
+    image: tailscale/tailscale:latest
+    # container_name: books
+    hostname: books
+    environment:
+      - TS_HOSTNAME=books
+      # - TS_STATE_DIR=/var/run/tailscale
+      - TS_STATE_DIR=${DATA_DIR}/audiobookshelf/tailscale
+      - TS_AUTHKEY=${AUDIOBOOKSHELF_KEY}
+      # - TS_USERSPACE=false
+      # - TS_SOCKET=${DATA_DIR}/audiobookshelf/tailscale/tailscaled.sock
     volumes:
       - ${DATA_DIR}/audiobookshelf/tailscale:/var/lib/tailscale        # State data will be stored in this directory
       - ${DATA_DIR}/audiobookshelf/tls:/mnt/tls
-      # - "/dev/net/tun:/dev/net/tun"           # Required for tailscale to work
-    # cap_add:                                    # Required for tailscale to work
-    #   - net_admin
-    #   - sys_module
+      - /dev/net/tun:/dev/net/tun           # Required for tailscale to work
     ports:
-      - 8000:80
-    environment:
-      - TS_AUTHKEY= ${AUDIOBOOKSHELF_KEY}
-      - TS_HOSTNAME=books
-      - TS_STATE_DIR=${DATA_DIR}/audiobookshelf/tailscale
-      # - TS_USERSPACE=true
-    # command: tailscaled
+      - 8081:80
+    cap_add:       # Required for tailscale to work
+      - net_admin
+      - sys_module
     healthcheck:
       test: "exit 0"
-    # env_file:
-    #   - ./.env
+    restart: always # unless-stopped
+    # command: tailscaled
 
   audiobookshelf:
     image: ghcr.io/advplyr/audiobookshelf:latest
@@ -31,8 +33,11 @@ services:
       - ${DATA_DIR}/audiobookshelf/config:/config
       - ${DATA_DIR}/audiobookshelf/metadata:/metadata
     depends_on:
-      tailscale:
+      books-tailscale:
         condition: service_healthy
-    network_mode: service:tailscale
-    # env_file:
-    #   - ./.env
+    network_mode: service:books-tailscale
+
+# volumes:
+#   audiobookshelf:
+#   tailscale:
+#   tls:

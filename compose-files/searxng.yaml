@@ -1,27 +1,35 @@
+---
 services:
-  tailscale:
+  searxng-tailscale:
     image: tailscale/tailscale:latest
-    volumes:
-      - ${DATA_DIR}/searxng/tailscale:/var/lib/tailscale        # State data will be stored in this directory
-      - ${DATA_DIR}/searxng/tls:/mnt/tls
+    # container_name: searxng
+    hostname: searxng
     environment:
       - TS_HOSTNAME=searxng
       - TS_STATE_DIR=${DATA_DIR}/searxng/tailscale  #/var/run/tailscale
+      # - TS_STATE_DIR=/var/run/tailscale
       - TS_AUTHKEY=${SEARXNG_TS_KEY}
+      # - TS_USERSPACE=false
+      # - TS_SOCKET=${DATA_DIR}/searxng/tailscale/tailscaled.sock
+    volumes:
+      - ${DATA_DIR}/searxng/tailscale:/var/lib/tailscale        # State data will be stored in this directory
+      - ${DATA_DIR}/searxng/tls:/mnt/tls
+      - /dev/net/tun:/dev/net/tun           # Required for tailscale to work
     ports:
-      # - "8080:8080"
-      - "80:8080"
-      # - "127.0.0.1:8080:8080"
+      - "8080:8080"
+    cap_add:      # Required for tailscale to work
+      - net_admin
+      - sys_module
     healthcheck:
       test: "exit 0"
-    restart: unless-stopped
+    restart: always # unless-stopped
+    # command: tailscaled
 
   redis:
     container_name: redis
     image: docker.io/valkey/valkey:8-alpine
     command: valkey-server --save 30 1 --loglevel warning
     restart: unless-stopped
-    # network_mode: service:tailscale
     volumes:
       - ${DATA_DIR}/searxng/valkey-data2:/data
     environment:
@@ -32,23 +40,16 @@ services:
       options:
         max-size: "1m"
         max-file: "1"
-    # depends_on:
-    #   tailscale:
-    #     condition: service_healthy
-    # healthcheck:
-    #   test: "exit 0"
 
   searxng:
     container_name: searxng
     image: docker.io/searxng/searxng:latest
     restart: unless-stopped
-    network_mode: service:tailscale
+    network_mode: service:searxng-tailscale
     volumes:
       - ${DATA_DIR}/searxng:/etc/searxng:rw
     environment:
       - SEARXNG_BASE_URL=http://searxng.${TS_DOMAIN}
-      # - UWSGI_WORKERS=4
-      # - UWSGI_THREADS=4
       - PGID=977
       - PUID=977
     logging:
@@ -57,12 +58,11 @@ services:
         max-size: "1m"
         max-file: "1"
     depends_on:
-      tailscale:
-      # redis:
-        condition: service_healthy
+      - searxng-tailscale
+      - redis
 
-volumes:
-  tailscale:
-  tls:
-  valkey-data2:
-  searxng:
+# volumes:
+#   tailscale:
+#   tls:
+#   valkey-data2:
+#   searxng:
