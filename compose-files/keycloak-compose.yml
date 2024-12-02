@@ -13,7 +13,7 @@ services:
       - /dev/net/tun:/dev/net/tun           # Required for tailscale to work
     ports:
       - 8900:8080
-      - 5433:5432
+      - 5432:5432
     cap_add:                                    # Required for tailscale to work
       - net_admin
       - sys_module
@@ -31,7 +31,7 @@ services:
       POSTGRES_PASSWORD: ${KEYCLOAK_POSTGRES_PASSWORD}
     healthcheck:
       test: "exit 0"
-    # network_mode: service:keycloak-tailscale
+    network_mode: service:keycloak-tailscale
     depends_on:
       keycloak-tailscale:
         condition: service_healthy
@@ -46,7 +46,6 @@ services:
       KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
       KC_DB_USERNAME: ${KEYCLOAK_USERNAME}
       KC_DB_SCHEMA: public
-      KC_DB_PORT: 5433
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
       KC_HOSTNAME: keycloak.${TS_DOMAIN}
