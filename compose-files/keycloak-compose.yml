@@ -12,7 +12,7 @@ services:
       - ${DATA_DIR}/keycloak/tls:/mnt/tls
       - /dev/net/tun:/dev/net/tun           # Required for tailscale to work
     ports:
-      - 8080:8080
+      - 8900:8080
       - 5432:5432
     cap_add:                                    # Required for tailscale to work
       - net_admin
@@ -31,7 +31,7 @@ services:
       POSTGRES_PASSWORD: ${KEYCLOAK_POSTGRES_PASSWORD}
     healthcheck:
       test: "exit 0"
-    network_mode: service:keycloak-tailscale
+    # network_mode: service:keycloak-tailscale
     depends_on:
       keycloak-tailscale:
         condition: service_healthy

@@ -6,7 +6,7 @@
 | forgejo        |          2222 |            22 |
 | forgejo        |          3000 |          3000 |
 | keycloak       |          5432 |          5432 |
-| keycloak       |          8080 |          8080 |
+| keycloak       |          8900 |          8080 |
 | nextcloud      |            80 |            80 |
 | nextcloud      |           443 |           443 |
 | pinchflat      |          8945 |          8945 |
