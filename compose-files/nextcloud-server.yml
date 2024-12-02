@@ -1,10 +1,10 @@
 services:
-  tailscale:
+  nextcloud-tailscale:
     image: tailscale/tailscale:latest
     volumes:
       - ${DATA_DIR}/nextcloud/tailscale:/var/lib/tailscale
       - ${DATA_DIR}/nextcloud/tailscale/tls:/mnt/tls
-      # - /dev/net/tun:/dev/net/tun
+      - /dev/net/tun:/dev/net/tun
       # - /var/run/docker.sock:/var/run/docker.sock:ro
       - ${DATA_DIR}/nextcloud/var/run/tailscale:/var/run/tailscale
     environment:
@@ -12,42 +12,31 @@ services:
       - TS_STATE_DIR=${DATA_DIR}/nextcloud/tailscale  #/var/run/tailscale
       # - TS_USERSPACE=true
       - TS_AUTHKEY=${NEXTCLOUD_KEY}
-      # - TS_ACCEPT_DNS=true
     ports:
       - 80:80
       # - 8080:8080
       # - 8443:8443
       - 443:443
       # - 5432:5432
-    # cap_add:
-    #   - net_admin
-    #   - sys_module
-    # healthcheck:
-    #   test: "exit 0"
-    # healthcheck:
-    #   test: "exit 0"
+    cap_add:
+      - net_admin
+      - sys_module
+    healthcheck:
+      test: "exit 0"
     restart: unless-stopped
 
   db:
     image: postgres:17
     restart: always
-    # network_mode: service:tailscale
+    # network_mode: service:nextcloud-tailscale
     volumes:
       - ${DATA_DIR}/nextcloud/db:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=db
       - POSTGRES_USER=nextcloud
       - POSTGRES_PASSWORD=${NEXTCLOUD_DB_PASSWORD}
-    # healthcheck:
-    #   test: "exit 0"
-    # depends_on:
-    #   tailscale:
-    #     condition: service_healthy
-
-    # secrets:
-    #   - postgres_db
-    #   - postgres_password
-    #   - postgres_user
+    healthcheck:
+      test: "exit 0"
 
   redis:
     image: redis:alpine
@@ -56,7 +45,7 @@ services:
   app:
     image: nextcloud:30
     restart: always
-    network_mode: service:tailscale
+    network_mode: service:nextcloud-tailscale
     volumes:
       - ${DATA_DIR}/nextcloud:/var/www/html
       - ${DATA_DIR}/nextcloud/data:/var/www/html/data
@@ -77,35 +66,13 @@ services:
       - NEXTCLOUD_KEEP_DISABLED_APPS=false
 
       - REDIS_HOST=redis
-    # depends_on:
-    #   db:
-    #     condition: service_healthy
     depends_on:
       - redis
       - db
       - tailscale
-
-    # secrets:
-    #   - nextcloud_admin_password
-    #   - nextcloud_admin_user
-    #   - postgres_db
-    #   - postgres_password
-    #   - postgres_user
 
 volumes:
   db:
   nextcloud:
   tailscale:
   tls:
-
-# secrets:
-#   nextcloud_admin_password:
-#     file: ./nextcloud_admin_password.txt # put admin password in this file
-#   nextcloud_admin_user:
-#     file: ./nextcloud_admin_user.txt # put admin username in this file
-#   postgres_db:
-#     file: ./postgres_db.txt # put postgresql db name in this file
-#   postgres_password:
-#     file: ./postgres_password.txt # put postgresql password in this file
-#   postgres_user:
-#     file: ./postgres_user.txt # put postgresql username in this file
