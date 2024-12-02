@@ -22,23 +22,6 @@ services:
       test: "exit 0"
     restart: unless-stopped
 
-  redis:
-    container_name: redis
-    image: docker.io/valkey/valkey:8-alpine
-    command: valkey-server --save 30 1 --loglevel warning
-    restart: unless-stopped
-    volumes:
-      - ${DATA_DIR}/searxng/valkey-data2:/data
-    environment:
-      - PGID=977
-      - PUID=977
-    # network_mode: service:searxng-tailscale
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1m"
-        max-file: "1"
-
   searxng:
     container_name: searxng
     image: docker.io/searxng/searxng:latest
@@ -47,9 +30,9 @@ services:
     volumes:
       - ${DATA_DIR}/searxng:/etc/searxng:rw
     environment:
-      - SEARXNG_BASE_URL=http://searxng.${TS_DOMAIN}
-      - PGID=977
-      - PUID=977
+      - SEARXNG_BASE_URL=https://searxng.${TS_DOMAIN}
+      # - PGID=977
+      # - PUID=977
     logging:
       driver: "json-file"
       options:
@@ -58,6 +41,30 @@ services:
     depends_on:
       - searxng-tailscale
       - redis
+
+  redis:
+    container_name: redis
+    image: docker.io/valkey/valkey:8-alpine
+    command: valkey-server --save 30 1 --loglevel warning
+    restart: unless-stopped
+    volumes:
+      - ${DATA_DIR}/searxng/valkey-data2:/data
+    # environment:
+    #   - PGID=977
+    #   - PUID=977
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETGID
+      - SETUID
+      - DAC_OVERRIDE
+    # network_mode: service:searxng-tailscale
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+
 
 volumes:
   tailscale:
