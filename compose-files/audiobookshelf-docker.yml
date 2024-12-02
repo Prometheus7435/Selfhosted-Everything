@@ -2,7 +2,6 @@
 services:
   books-tailscale:
     image: tailscale/tailscale:latest
-    # container_name: books
     hostname: books
     environment:
       - TS_HOSTNAME=books
@@ -10,7 +9,6 @@ services:
       - TS_STATE_DIR=${DATA_DIR}/audiobookshelf/tailscale
       - TS_AUTHKEY=${AUDIOBOOKSHELF_KEY}
       # - TS_USERSPACE=false
-      # - TS_SOCKET=${DATA_DIR}/audiobookshelf/tailscale/tailscaled.sock
     volumes:
       - ${DATA_DIR}/audiobookshelf/tailscale:/var/lib/tailscale        # State data will be stored in this directory
       - ${DATA_DIR}/audiobookshelf/tls:/mnt/tls
@@ -22,8 +20,7 @@ services:
       - sys_module
     healthcheck:
       test: "exit 0"
-    restart: always # unless-stopped
-    # command: tailscaled
+    restart: unless-stopped
 
   audiobookshelf:
     image: ghcr.io/advplyr/audiobookshelf:latest
@@ -37,7 +34,7 @@ services:
         condition: service_healthy
     network_mode: service:books-tailscale
 
-# volumes:
-#   audiobookshelf:
-#   tailscale:
-#   tls:
+volumes:
+  audiobookshelf:
+  tailscale:
+  tls:
