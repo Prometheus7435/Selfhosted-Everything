@@ -2,7 +2,7 @@
 services:
   searxng-tailscale:
     image: tailscale/tailscale:latest
-    hostname: searxng
+    # hostname: searxng
     environment:
       - TS_HOSTNAME=searxng
       - TS_STATE_DIR=${DATA_DIR}/searxng/tailscale
@@ -32,6 +32,7 @@ services:
     environment:
       - PGID=977
       - PUID=977
+    network_mode: service:searxng-tailscale
     logging:
       driver: "json-file"
       options:
