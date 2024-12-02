@@ -40,7 +40,7 @@ services:
         max-file: "1"
     depends_on:
       - searxng-tailscale
-      - redis
+      # - redis
 
   # redis:
   #   container_name: redis
