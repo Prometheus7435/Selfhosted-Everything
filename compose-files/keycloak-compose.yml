@@ -21,7 +21,7 @@ services:
       test: "exit 0"
     restart: unless-stopped
 
-  postgres:
+  keycloak-postgres:
     image: postgres:17
     volumes:
       - ${DATA_DIR}/keycloak/postgres_data:/var/lib/postgresql/data
@@ -33,7 +33,7 @@ services:
       test: "exit 0"
     network_mode: service:keycloak-tailscale
     depends_on:
-      tailscale:
+      keycloak-tailscale:
         condition: service_healthy
 
   keycloak:
@@ -50,7 +50,7 @@ services:
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
       KC_HOSTNAME: keycloak.${TS_DOMAIN}
     depends_on:
-      postgres:
+      keycloak-postgres:
         condition: service_healthy
     network_mode: service:keycloak-tailscale
 
