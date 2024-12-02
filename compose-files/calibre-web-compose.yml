@@ -6,13 +6,12 @@ services:
     image: tailscale/tailscale
     volumes:
       - ./data/calibre/tailscale:/var/lib/tailscale        # State data will be stored in this directory
-      # - "/dev/net/tun:/dev/net/tun"           # Required for tailscale to work
+      - "/dev/net/tun:/dev/net/tun"           # Required for tailscale to work
     ports:
       - 8083:8083
     environment:
-      - TS_AUTHKEY=tskey-auth-kEPaUS4JUt11CNTRL-szx3Cv89vh6aDhSkkByci6RqeJ2JpExy #"${CALIBRE-KEY}"
+      - TS_AUTHKEY="${CALIBRE_KEY}"
       - TS_USERSPACE=true
-    # command: tailscaled
     healthcheck:
       test: "exit 0"
     env_file:
