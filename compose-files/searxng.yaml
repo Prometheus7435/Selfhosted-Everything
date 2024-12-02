@@ -58,7 +58,7 @@ services:
       - SETGID
       - SETUID
       - DAC_OVERRIDE
-    # network_mode: service:searxng-tailscale
+    network_mode: service:searxng-tailscale
     logging:
       driver: "json-file"
       options:
