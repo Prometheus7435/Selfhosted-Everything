@@ -11,4 +11,7 @@
 | nextcloud      |           443 |           443 |
 | pinchflat      |          8945 |          8945 |
 | searxng        |          8180 |          8080 |
+| tubearchivist  |          8001 |          8000 |
+| tubearchivist  |          6379 |          6379 |
+| tubearchivist  |          9200 |          9200 |
 |                |               |               |
