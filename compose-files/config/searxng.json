@@ -5,15 +5,15 @@
       }
     },
     "Web": {
-      "searxng.tail0301a.ts.net:443": {
+      "${SEARXNG_DOMAIN}.${TS_DOMAIN}:443": {
         "Handlers": {
           "/": {
-            "Proxy": "http://127.0.0.1:8080"
+            "Proxy": "http://127.0.0.1:8180"
           }
         }
       }
     },
     "AllowFunnel": {
-	"searxng.tail0301a.ts.net:443": false
+	"${SEARXNG_DOMAIN}.${TS_DOMAIN}:443": false
     }
   }

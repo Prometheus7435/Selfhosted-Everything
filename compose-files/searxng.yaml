@@ -10,17 +10,17 @@ services:
       - TS_AUTHKEY=${SEARXNG_TS_KEY}
       - TS_USERSPACE=false
       # - TS_SERVE_CONFIG=/config/searxng.json
-      # - TS_SERVE_CONFIG=${DATA_DIR}/searxng/config/searxng.json
+      - TS_SERVE_CONFIG=${CONFIG_DIR}/searxng.json
     volumes:
       - ${DATA_DIR}/searxng/tailscale:/var/lib/tailscale        # State data will be stored in this directory
       - ${DATA_DIR}/searxng/tls:/mnt/tls
 
-      # - ${DATA_DIR}/searxng/config:/config
+      - ${DATA_DIR}/searxng/config:/config
       # - /dev/net/tun:/dev/net/tun           # Required for tailscale to work
     devices:
       - /dev/net/tun:/dev/net/tun
-    ports:
-      - "8180:8080"
+    # ports:
+    #   - "8180:8080"
     cap_add:      # Required for tailscale to work
       - net_admin
       - sys_module
