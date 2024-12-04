@@ -2,15 +2,16 @@
 services:
   searxng-tailscale:
     image: tailscale/tailscale:latest
-    # hostname: searxng
+    hostname: searxng
     environment:
-      - TS_HOSTNAME=searxng
+      - TS_AUTHKEY=${SEARXNG_TS_KEY}
+      # - TS_HOSTNAME=searxng
       - TS_STATE_DIR=${DATA_DIR}/searxng/tailscale
       # - TS_STATE_DIR=/var/run/tailscale
-      - TS_AUTHKEY=${SEARXNG_TS_KEY}
+
+      - TS_SERVE_CONFIG=/config/searxng.json
+      # - TS_SERVE_CONFIG=${CONFIG_DIR}/searxng.json
       - TS_USERSPACE=false
-      # - TS_SERVE_CONFIG=/config/searxng.json
-      - TS_SERVE_CONFIG=${CONFIG_DIR}/searxng.json
     volumes:
       - ${DATA_DIR}/searxng/tailscale:/var/lib/tailscale        # State data will be stored in this directory
       - ${DATA_DIR}/searxng/tls:/mnt/tls

@@ -7,27 +7,30 @@ services:
     hostname: mealie
     environment:
       - TS_AUTHKEY=${MEALIE_KEY}
-      - "TS_EXTRA_ARGS=--advertise-tags=tag:container --reset"
+      # - "TS_EXTRA_ARGS=--advertise-tags=tag:container --reset"
       - TS_SERVE_CONFIG=/config/mealie.json
-      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_STATE_DIR=${DATA_DIR}/mealie/tailscale
       - TS_USERSPACE=false
     volumes:
-      - ${PWD}/state:/var/lib/tailscale
-      - ${PWD}/config:/config
+      - ${DATA_DIR}/mealie/state:/var/lib/tailscale
+      - ${CONFIG_DIR}:/config
+      # - ${DATA_DIR}/mealie/config:/config
     devices:
       - /dev/net/tun:/dev/net/tun
     cap_add:
       - net_admin
       - sys_module
     restart: unless-stopped
+
   mealie:
-    image: ghcr.io/mealie-recipes/mealie:v1.0.0
+    image: ghcr.io/mealie-recipes/mealie
+    # image: ghcr.io/mealie-recipes/mealie:v1.0.0
     container_name: mealie
     network_mode: service:ts-mealie
     depends_on:
       - ts-mealie
     volumes:
-      - mealie-data:/app/data
+      - ${DATA_DIR}/mealie:/app/data
     environment:
       - ALLOW_SIGNUP=true
     restart: unless-stopped
