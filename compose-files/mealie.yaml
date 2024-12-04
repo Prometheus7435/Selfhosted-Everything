@@ -13,8 +13,8 @@ services:
     volumes:
       - ${DATA_DIR}/mealie/state:/var/lib/tailscale
       # - ${CONFIG_DIR}:/config
-      - ${PWD}/config:/config
-      # - ${DATA_DIR}/mealie/config:/config
+      # - ${PWD}/config:/config
+      - ${DATA_DIR}/mealie/config:/config
     devices:
       - /dev/net/tun:/dev/net/tun
     cap_add:
