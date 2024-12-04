@@ -12,9 +12,9 @@ services:
       - TS_USERSPACE=false
     volumes:
       - ${DATA_DIR}/mealie/state:/var/lib/tailscale
-      # - ${CONFIG_DIR}:/config
+      - ${CONFIG_DIR}:/config
       # - ${PWD}/config:/config
-      - ${DATA_DIR}/mealie/config:/config
+      # - ${DATA_DIR}/mealie/config:/config
     devices:
       - /dev/net/tun:/dev/net/tun
     cap_add:
