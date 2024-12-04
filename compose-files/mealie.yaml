@@ -8,14 +8,8 @@ services:
     environment:
       - TS_AUTHKEY=${MEALIE_KEY}
       - TS_SERVE_CONFIG=/config/mealie.json
-      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_STATE_DIR=${DATA_DIR}/mealie/tailscale
       - TS_USERSPACE=false
-
-      # - TS_AUTHKEY=${MEALIE_KEY}
-      # # - "TS_EXTRA_ARGS=--advertise-tags=tag:container --reset"
-      # - TS_SERVE_CONFIG=/config/mealie.json
-      # - TS_STATE_DIR=${DATA_DIR}/mealie/tailscale
-      # - TS_USERSPACE=false
     volumes:
       - ${DATA_DIR}/mealie/state:/var/lib/tailscale
       # - ${CONFIG_DIR}:/config
