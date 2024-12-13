@@ -1,0 +1,40 @@
+---
+services:
+    tailscale-freshrss:
+    image: tailscale/tailscale:latest
+    hostname: freshrss
+    environment:
+      - TS_HOSTNAME=freshrss
+      # - TS_STATE_DIR=/var/run/tailscale
+      - TS_STATE_DIR=${DATA_DIR}/freshrss/tailscale
+      - TS_AUTHKEY=${FRESHRSS_KEY}
+      # - TS_USERSPACE=false
+    volumes:
+      - ${DATA_DIR}/freshrss/tailscale:/var/lib/tailscale        # State data will be stored in this directory
+      - ${DATA_DIR}/freshrss/tls:/mnt/tls
+      - /dev/net/tun:/dev/net/tun           # Required for tailscale to work
+    ports:
+      - 8082:80
+    cap_add:       # Required for tailscale to work
+      - net_admin
+      - sys_module
+    healthcheck:
+      test: "exit 0"
+    restart: unless-stopped
+
+  freshrss:
+    image: lscr.io/linuxserver/freshrss:latest
+    container_name: freshrss
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${HOME_TIMEZONE}
+    volumes:
+      - ${DATA_DIR}/freshrss/config:/config
+    network_mode: service:tailscale-freshrss
+    # ports:
+    #   - 80:80
+    depends_on:
+      tailscale-freshrss:
+        condition: service_healthy
+    restart: unless-stopped
