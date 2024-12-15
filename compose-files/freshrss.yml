@@ -1,6 +1,6 @@
 ---
 services:
-    tailscale-freshrss:
+  tailscale-freshrss:
     image: tailscale/tailscale:latest
     hostname: freshrss
     environment:
