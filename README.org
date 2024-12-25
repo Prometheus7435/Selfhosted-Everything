@@ -83,6 +83,7 @@ This falls into how close can I come to Star Trek or SARA from Eureka?
 **** Kavita
 ** Front Page
 *** [[https://github.com/bastienwirtz/homer][Homer]]
+*** [[/compose-files/fenrus.yaml][Fenrus]]
 ** Knowledge Management System
 ** Communication
 *** Matrix (?)
