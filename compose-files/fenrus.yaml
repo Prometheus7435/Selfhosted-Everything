@@ -31,7 +31,7 @@ services:
     depends_on:
       ts-fenrus:
         condition: service_healthy
-    network_mode: service:audiobooks-tailscale
+    network_mode: service:ts-fenrus
     restart: unless-stopped
 
 volumes:
