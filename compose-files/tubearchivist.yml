@@ -84,7 +84,8 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - ${DATA_DIR}/tubearchivist/es:/usr/share/elasticsearch/data    # check for permission error when using bind mount, see readme
+      - ${DATA_DIR}/tubearchivist/es:/usr/share/elasticsearch/data
+      - ${DATA_DIR}/tubearchivist/es/snapshot:/usr/share/elasticsearch/data/snapshot
     healthcheck:
       test: "exit 0"
     depends_on:
