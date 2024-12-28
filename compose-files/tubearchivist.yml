@@ -55,21 +55,24 @@ services:
     image: redis/redis-stack-server
     container_name: archivist-redis
     restart: unless-stopped
-    # network_mode: service:ts-tubearchivist
-    expose:
-      - "6379"
+    network_mode: service:ts-tubearchivist
+    # expose:
+    #   - "6379"
     volumes:
       - ${DATA_DIR}/tubearchivist/redis:/data
+    healthcheck:
+      test: "exit 0"
     depends_on:
-      - archivist-es
+      archivist-es:
+        condition: service_healthy
 
   archivist-es:
     image: bbilly1/tubearchivist-es         # only for amd64, or use official es 8.14.3
     container_name: archivist-es
     restart: unless-stopped
-    # network_mode: service:ts-tubearchivist
-    expose:
-      - "9200"
+    network_mode: service:ts-tubearchivist
+    # expose:
+    #   - "9200"
     environment:
       - "ELASTIC_PASSWORD=${TUBE_ELASTIC_PASSWORD}"       # matching Elasticsearch password
       - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
@@ -82,8 +85,11 @@ services:
         hard: -1
     volumes:
       - ${DATA_DIR}/tubearchivist/es:/usr/share/elasticsearch/data    # check for permission error when using bind mount, see readme
+    healthcheck:
+      test: "exit 0"
     depends_on:
-      - ts-tubearchivist
+      ts-tubearchivist:
+        condition: service_healthy
 
 
 volumes:
