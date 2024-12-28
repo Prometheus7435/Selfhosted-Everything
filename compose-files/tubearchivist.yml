@@ -68,6 +68,8 @@ services:
       - "6379"
     volumes:
       - ${DATA_DIR}/tubearchivist/redis:/data
+    depends_on:
+      - archivist-es
     # healthcheck:
     #   test: "exit 0"
     # depends_on:
@@ -82,12 +84,11 @@ services:
     expose:
       - "9200"
     environment:
-      - "ELASTIC_PASSWORD=superstrong"       # matching Elasticsearch password
-      # - "ELASTIC_PASSWORD=${TUBE_ELASTIC_PASSWORD}"       # matching Elasticsearch password
+      - "ELASTIC_PASSWORD=${TUBE_ELASTIC_PASSWORD}"       # matching Elasticsearch password
       - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
       - "xpack.security.enabled=true"
-      - "discovery.type=single-node"
-      - "path.repo=/usr/share/elasticsearch/data/snapshot"
+      # - "discovery.type=single-node"
+      # - "path.repo=/usr/share/elasticsearch/data/snapshot"
     ulimits:
       memlock:
         soft: -1
