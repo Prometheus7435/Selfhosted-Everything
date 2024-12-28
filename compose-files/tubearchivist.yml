@@ -97,11 +97,10 @@ services:
       ts-tubearchivist:
         condition: service_healthy
 
-
-volumes:
-  media:
-  cache:
-  redis:
-  es:
-  tailscale:
-  tls:
+# volumes:
+#   media:
+#   cache:
+#   redis:
+#   es:
+#   tailscale:
+#   tls:
