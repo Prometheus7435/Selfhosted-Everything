@@ -39,6 +39,7 @@ services:
       # - HOST_UID=1000
       # - HOST_GID=1000
       # - TA_HOST=tubearchivist.${TS_DOMAIN}        # set your host name
+      - TA_HOST=tubearchivist.local
       - TA_USERNAME=${TUBE_USER}                  # your initial TA credentials
       - TA_PASSWORD=${TUBE_PASSWORD}              # your initial TA credentials
       - ELASTIC_PASSWORD=${TUBE_ELASTIC_PASSWORD} # set password for Elasticsearch
@@ -99,10 +100,10 @@ services:
     #   ts-tubearchivist:
     #     condition: service_healthy
 
-volumes:
-  # media:
-  cache:
-  redis:
-  es:
+# volumes:
+#   # media:
+#   cache:
+#   redis:
+#   es:
 #   tailscale:
 #   tls:
