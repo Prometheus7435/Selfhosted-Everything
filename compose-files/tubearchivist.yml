@@ -1,48 +1,51 @@
 ---
 services:
-  ts-tubearchivist:
-    image: tailscale/tailscale:latest
-    environment:
-      - TS_HOSTNAME=tubearchivist
-      - TS_STATE_DIR=${DATA_DIR}/tubearchivist/tailscale  #/var/run/tailscale
-      - TS_AUTHKEY=${TUBEARCHIVIST_KEY}
-    volumes:
-      - ${DATA_DIR}/tubearchivist/tailscale:/var/lib/tailscale        # State data will be stored in this directory
-      - ${DATA_DIR}/tubearchivist/tls:/mnt/tls
-      - /dev/net/tun:/dev/net/tun           # Required for tailscale to work
-    ports:
-      - 8000:8000
-      # - 6379:6379
-      # - 9200:9200
-    cap_add:                                    # Required for tailscale to work
-      - net_admin
-      - sys_module
-    healthcheck:
-      test: "exit 0"
-    restart: unless-stopped
+  # ts-tubearchivist:
+  #   image: tailscale/tailscale:latest
+  #   environment:
+  #     - TS_HOSTNAME=tubearchivist
+  #     - TS_STATE_DIR=${DATA_DIR}/tubearchivist/tailscale  #/var/run/tailscale
+  #     - TS_AUTHKEY=${TUBEARCHIVIST_KEY}
+  #   volumes:
+  #     - ${DATA_DIR}/tubearchivist/tailscale:/var/lib/tailscale        # State data will be stored in this directory
+  #     - ${DATA_DIR}/tubearchivist/tls:/mnt/tls
+  #     - /dev/net/tun:/dev/net/tun           # Required for tailscale to work
+  #   ports:
+  #     - 8000:8000
+  #     # - 6379:6379
+  #     # - 9200:9200
+  #   cap_add:                                    # Required for tailscale to work
+  #     - net_admin
+  #     - sys_module
+  #   healthcheck:
+  #     test: "exit 0"
+  #   restart: unless-stopped
 
   tubearchivist:
     container_name: tubearchivist
     restart: unless-stopped
     image: bbilly1/tubearchivist
-    network_mode: service:ts-tubearchivist
-    # ports:
-    #   - 8000:8000
+    # network_mode: service:ts-tubearchivist
+    ports:
+      - 8001:8000
     volumes:
-      - ${DATA_DIR}/tubearchivist/media:/youtube
+      # - ${DATA_DIR}/tubearchivist/media:/youtube
+      - /mnt/alpha/media/webshows:/youtube
       - ${DATA_DIR}/tubearchivist/cache:/cache
     environment:
-      - ES_URL=http://tubearchivist.${TS_DOMAIN}:9200     # needs protocol e.g. http and port
+      # - ES_URL=http://tubearchivist.${TS_DOMAIN}:9200     # needs protocol e.g. http and port
+      - ES_URL=http://archivist-es:9200
       - REDIS_HOST=archivist-redis          # don't add protocol
-      - HOST_UID=1000
-      - HOST_GID=1000
-      - TA_HOST=tubearchivist.${TS_DOMAIN}        # set your host name
+      # - HOST_UID=1000
+      # - HOST_GID=1000
+      # - TA_HOST=tubearchivist.${TS_DOMAIN}        # set your host name
       - TA_USERNAME=${TUBE_USER}                  # your initial TA credentials
       - TA_PASSWORD=${TUBE_PASSWORD}              # your initial TA credentials
       - ELASTIC_PASSWORD=${TUBE_ELASTIC_PASSWORD} # set password for Elasticsearch
       - TZ=${HOME_TIMEZONE}                       # set your time zone
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://tubearchivist.${TS_DOMAIN}:8000/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      # test: ["CMD", "curl", "-f", "http://tubearchivist.${TS_DOMAIN}:8000/health"]
       interval: 2m
       timeout: 10s
       retries: 3
@@ -55,12 +58,12 @@ services:
     image: redis/redis-stack-server
     container_name: archivist-redis
     restart: unless-stopped
-    network_mode: service:ts-tubearchivist
-    environment:
-      - HOST_UID=1000
-      - HOST_GID=1000
-    # expose:
-    #   - "6379"
+    # network_mode: service:ts-tubearchivist
+    # environment:
+    #   - PUID=1000
+    #   - PGID=1000
+    expose:
+      - "6379"
     volumes:
       - ${DATA_DIR}/tubearchivist/redis:/data
     healthcheck:
@@ -73,34 +76,33 @@ services:
     image: bbilly1/tubearchivist-es         # only for amd64, or use official es 8.14.3
     container_name: archivist-es
     restart: unless-stopped
-    network_mode: service:ts-tubearchivist
-    # expose:
-    #   - "9200"
+    # network_mode: service:ts-tubearchivist
+    expose:
+      - "9200"
     environment:
       - "ELASTIC_PASSWORD=${TUBE_ELASTIC_PASSWORD}"       # matching Elasticsearch password
       - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
-      # - "xpack.security.enabled=true"
+      - "xpack.security.enabled=true"
       - "discovery.type=single-node"
-      # - "path.repo=/usr/share/elasticsearch/data/snapshot"
-      - HOST_UID=1000
-      - HOST_GID=1000
+      - "path.repo=/usr/share/elasticsearch/data/snapshot"
+      # - PUID=1000
+      # - PGID=1000
     ulimits:
       memlock:
         soft: -1
         hard: -1
     volumes:
       - ${DATA_DIR}/tubearchivist/es:/usr/share/elasticsearch/data
-      # - ${DATA_DIR}/tubearchivist/es/snapshot:/usr/share/elasticsearch/data/snapshot
     healthcheck:
       test: "exit 0"
-    depends_on:
-      ts-tubearchivist:
-        condition: service_healthy
+    # depends_on:
+    #   ts-tubearchivist:
+    #     condition: service_healthy
 
-# volumes:
-#   media:
-#   cache:
-#   redis:
-#   es:
+volumes:
+  # media:
+  cache:
+  redis:
+  es:
 #   tailscale:
 #   tls:
