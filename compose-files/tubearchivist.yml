@@ -5,7 +5,7 @@ services:
     environment:
       - TS_HOSTNAME=tubearchivist
       - TS_STATE_DIR=${DATA_DIR}/tubearchivist/tailscale  #/var/run/tailscale
-      - TS_AUTHKEY=${TUBEARCHIVIST_TS_KEY}
+      - TS_AUTHKEY=${TUBEARCHIVIST_KEY}
     volumes:
       - ${DATA_DIR}/tubearchivist/tailscale:/var/lib/tailscale        # State data will be stored in this directory
       - ${DATA_DIR}/tubearchivist/tls:/mnt/tls
