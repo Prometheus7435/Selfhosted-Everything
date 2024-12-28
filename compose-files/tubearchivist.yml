@@ -51,9 +51,9 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
-    depends_on:
-      - archivist-es
-      - archivist-redis
+    # depends_on:
+    #   - archivist-es
+    #   - archivist-redis
 
   archivist-redis:
     image: redis/redis-stack-server
@@ -67,11 +67,11 @@ services:
       - "6379"
     volumes:
       - ${DATA_DIR}/tubearchivist/redis:/data
-    healthcheck:
-      test: "exit 0"
-    depends_on:
-      archivist-es:
-        condition: service_healthy
+    # healthcheck:
+    #   test: "exit 0"
+    # depends_on:
+    #   archivist-es:
+    #     condition: service_healthy
 
   archivist-es:
     image: bbilly1/tubearchivist-es         # only for amd64, or use official es 8.14.3
@@ -88,14 +88,14 @@ services:
       - "path.repo=/usr/share/elasticsearch/data/snapshot"
       # - PUID=1000
       # - PGID=1000
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
+    # ulimits:
+    #   memlock:
+    #     soft: -1
+    #     hard: -1
     volumes:
       - ${DATA_DIR}/tubearchivist/es:/usr/share/elasticsearch/data
-    healthcheck:
-      test: "exit 0"
+    # healthcheck:
+    #   test: "exit 0"
     # depends_on:
     #   ts-tubearchivist:
     #     condition: service_healthy
