@@ -34,7 +34,7 @@ services:
     volumes:
       - ${DATA_DIR}/ntfy:/var/cache/ntfy
       - ${DATA_DIR}/ntfy:/etc/ntfy
-    network_mode: service:tailscale-freshrss
+    network_mode: service:ts-ntfy
     # ports:
     #   - 8083:80
 
