@@ -1,0 +1,69 @@
+---
+services:
+  ts-monica:
+    image: tailscale/tailscale:latest
+    volumes:
+      - ${DATA_DIR}/monica/tailscale:/var/lib/tailscale
+      - ${DATA_DIR}/monica/tailscale/tls:/mnt/tls
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - TS_HOSTNAME=monica
+      - TS_STATE_DIR=${DATA_DIR}/monica/tailscale
+      # - TS_USERSPACE=true
+      - TS_AUTHKEY=${MONICA_KEY}
+    ports:
+      - 8084:80
+      - 1443:443
+      - ${MARIADB_PORT}:3306
+    cap_add:
+      - net_admin
+      - sys_module
+    healthcheck:
+      test: "exit 0"
+    restart: unless-stopped
+
+  monica:
+    image: lscr.io/linuxserver/monica:latest
+    container_name: monica
+    environment:
+      - PUID=${MY_PUID} #1000
+      - PGID=${MY_PGID} #1000
+      - TZ=${HOME_TIMEZONE}
+      - DB_HOST=monica.${TS_DOMAIN}
+      - DB_PORT=${MARIADB_PORT} #3306
+      - DB_USERNAME=${MARIADB_USER}
+      - DB_PASSWORD=${MARIADB_PASSWORD}
+      - DB_DATABASE=Monica
+      # - APP_URL=http://monica.${TS_DOMAIN}:80 #optional
+      # - TRUSTED_PROXIES= #optional
+      - APP_ENV=local #optional
+      - APP_DISABLE_SIGNUP=true #optional
+    volumes:
+      - ${DATA_DIR}/monica/config:/config
+    network_mode: service:ts-monica
+    # ports:
+    #   - 80:80
+    #   - 443:443
+    depends_on:
+      - ts-monica
+    restart: unless-stopped
+
+  mariadb:
+    image: lscr.io/linuxserver/mariadb:latest  # mariadb:11
+    environment:
+      - PUID=${MY_PUID} #1000
+      - PGID=${MY_PGID} #1000
+      - TZ=${HOME_TIMEZONE}
+      - MYSQL_ROOT_PASSWORD=${MARIADB_PASSWORD} ## bad me reusing passwords
+      - MYSQL_USER=${MARIADB_USER}
+      - MYSQL_PASSWORD=${MARIADB_PASSWORD}
+      - MYSQL_DATABASE=Monica
+    network_mode: service:ts-monica
+    # ports:
+    #   - "3306:3306"
+    volumes:
+      # - ${DATA_DIR}/monica/seven_twitter.sql:/docker-entrypoint-initdb.d/1.sql
+      - ${DATA_DIR}/monica/mariadb/config:/config
+    depends_on:
+      - ts-monica
+    restart: unless-stopped

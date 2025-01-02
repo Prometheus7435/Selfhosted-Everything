@@ -15,4 +15,7 @@
 | tubearchivist  |          6379 |          6379 |
 | tubearchivist  |          9200 |          9200 |
 | freshrss       |          8082 |            80 |
+| ntfy           |          8083 |            80 |
+| monica         |          8084 |            80 |
+| monica         |          1443 |           443 |
 |                |               |               |
