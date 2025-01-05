@@ -72,6 +72,9 @@ This falls into how close can I come to Star Trek or SARA from Eureka?
 *** AudioBooks
 **** DONE AudioBookShelf
 - maybe [[https://github.com/ChrisLAS/notes/blob/master/audiobookshelf-docker-compose.yml][like this]]?
+*** Downloaders
+**** [[./compose-files/pinchflat.yml][Pinchflat]]
+- [[https://github.com/kieraneglin/pinchflat/tree/master][Github]]
 *** eBooks
 *** Music
 *** Photos
