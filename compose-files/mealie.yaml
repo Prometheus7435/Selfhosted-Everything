@@ -44,7 +44,7 @@ services:
       DB_ENGINE: postgres
       POSTGRES_USER: mealie
       POSTGRES_PASSWORD: mealie
-      POSTGRES_SERVER: postgres
+      POSTGRES_SERVER: mealie-postgres
       POSTGRES_PORT: 5433
       POSTGRES_DB: mealie
     depends_on:
