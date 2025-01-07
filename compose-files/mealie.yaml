@@ -29,10 +29,10 @@ services:
     container_name: mealie
     restart: always
     network_mode: service:ts-mealie
-    deploy:
-      resources:
-        limits:
-          memory: 1000M #
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 1000M #
     volumes:
       - ${DATA_DIR}/mealie/data:/app/data/
     environment:
@@ -48,10 +48,10 @@ services:
       POSTGRES_PORT: 5433
       POSTGRES_DB: mealie
     depends_on:
-      postgres:
+      mealie-postgres:
         condition: service_healthy
 
-  postgres:
+  mealie-postgres:
     container_name: postgres
     image: postgres:15
     restart: always
