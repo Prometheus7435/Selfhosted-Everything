@@ -1,22 +1,23 @@
 * Ports Used
 
-| Container      | Exterior Port | Interior Port |
-| audiobookshelf |          8081 |            80 |
-| calibre-web    |          8083 |          8083 |
-| forgejo        |          2222 |            22 |
-| forgejo        |          3000 |          3000 |
-| keycloak       |          5432 |          5432 |
-| keycloak       |          8900 |          8080 |
-| nextcloud      |            80 |            80 |
-| nextcloud      |           443 |           443 |
-| pinchflat      |          8945 |          8945 |
-| searxng        |          8180 |          8080 |
-| tubearchivist  |          8001 |          8000 |
-| tubearchivist  |          6379 |          6379 |
-| tubearchivist  |          9200 |          9200 |
-| freshrss       |          8082 |            80 |
-| ntfy           |          8083 |            80 |
-| monica         |          8084 |            80 |
-| monica         |          1443 |           443 |
-| monica         |          3306 |          3306 |
-|                |               |               |
+| Container       | Exterior Port | Interior Port |
+| audiobookshelf  |          8081 |            80 |
+| calibre-web     |          8083 |          8083 |
+| forgejo         |          2222 |            22 |
+| forgejo         |          3000 |          3000 |
+| keycloak        |          5432 |          5432 |
+| keycloak        |          8900 |          8080 |
+| nextcloud       |            80 |            80 |
+| nextcloud       |           443 |           443 |
+| pinchflat       |          8945 |          8945 |
+| searxng         |          8180 |          8080 |
+| tubearchivist   |          8001 |          8000 |
+| tubearchivist   |          6379 |          6379 |
+| tubearchivist   |          9200 |          9200 |
+| freshrss        |          8082 |            80 |
+| ntfy            |          8083 |            80 |
+| monica          |          8084 |            80 |
+| monica          |          1443 |           443 |
+| monica          |          3306 |          3306 |
+| discount-bandit |          8085 |            80 |
+|                 |               |               |

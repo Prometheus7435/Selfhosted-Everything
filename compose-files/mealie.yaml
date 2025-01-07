@@ -1,42 +1,78 @@
 ---
-version: "3.7"
 services:
   ts-mealie:
     image: tailscale/tailscale:latest
     container_name: ts-mealie
     hostname: mealie
     environment:
+      - TS_HOSTNAME=mealie
       - TS_AUTHKEY=${MEALIE_KEY}
-      - TS_SERVE_CONFIG=/config/mealie.json
       - TS_STATE_DIR=${DATA_DIR}/mealie/tailscale
       - TS_USERSPACE=false
     volumes:
-      - ${DATA_DIR}/mealie/state:/var/lib/tailscale
-      - ${CONFIG_DIR}:/config
-      # - ${PWD}/config:/config
-      # - ${DATA_DIR}/mealie/config:/config
+      - ${DATA_DIR}/mealie/tailscale:/var/lib/tailscale
+      - ${DATA_DIR}/mealie/tls:/mnt/tls
     devices:
       - /dev/net/tun:/dev/net/tun
+    ports:
+      - 9925:9000
+      - 5433:5432
     cap_add:
       - net_admin
       - sys_module
+    healthcheck:
+      test: "exit 0"
     restart: unless-stopped
 
   mealie:
-    image: ghcr.io/mealie-recipes/mealie
-    # image: ghcr.io/mealie-recipes/mealie:v1.0.0
+    image: ghcr.io/mealie-recipes/mealie:latest
     container_name: mealie
+    restart: always
     network_mode: service:ts-mealie
-    depends_on:
-      - ts-mealie
+    deploy:
+      resources:
+        limits:
+          memory: 1000M #
     volumes:
-      - ${DATA_DIR}/mealie:/app/data
+      - ${DATA_DIR}/mealie/data:/app/data/
     environment:
-      - ALLOW_SIGNUP=true
-    restart: unless-stopped
+      ALLOW_SIGNUP: "false"
+      PUID: 1000
+      PGID: 1000
+      TZ: ${HOME_TIMEZONE}
+      BASE_URL: http://mealie.${TS_DOMAIN}
+      DB_ENGINE: postgres
+      POSTGRES_USER: mealie
+      POSTGRES_PASSWORD: mealie
+      POSTGRES_SERVER: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: mealie
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    container_name: postgres
+    image: postgres:15
+    restart: always
+    volumes:
+      - ${DATA_DIR}/mealie/pgdata:/var/lib/postgresql/data
+    network_mode: service:ts-mealie
+    environment:
+      POSTGRES_PASSWORD: mealie
+      POSTGRES_USER: mealie
+      PGUSER: mealie
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    depends_on:
+      ts-mealie:
+        condition: service_healthy
 
 volumes:
-  mealie-data:
-    driver: local
-  ts-mealie:
-    driver: local
+  data:
+  pgdata:
+  tailscale:
+  tls:

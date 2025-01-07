@@ -12,7 +12,7 @@ services:
       - ${DATA_DIR}/tubearchivist/tls:/mnt/tls
       - /dev/net/tun:/dev/net/tun           # Required for tailscale to work
     ports:
-      - 8000:8000
+      - 8001:8000
       - 6379:6379
       - 9200:9200
     cap_add:                                    # Required for tailscale to work
@@ -31,11 +31,11 @@ services:
     #   - 8001:8000
     volumes:
       # - ${DATA_DIR}/tubearchivist/media:/youtube
-      - /mnt/alpha/media/webshows:/youtube
+      - ${MEDIA_DIR}/webshows:/youtube
       - ${DATA_DIR}/tubearchivist/cache:/cache
     environment:
-      # - ES_URL=http://tubearchivist.${TS_DOMAIN}:9200     # needs protocol e.g. http and port
-      - ES_URL=http://archivist-es:9200
+      - ES_URL=http://tubearchivist.${TS_DOMAIN}:9200     # needs protocol e.g. http and port
+      # - ES_URL=http://archivist-es:9200
       - REDIS_HOST=archivist-redis          # don't add protocol
       - HOST_UID=1000
       - HOST_GID=1000
@@ -69,12 +69,8 @@ services:
     volumes:
       - ${DATA_DIR}/tubearchivist/redis:/data
     depends_on:
+      - ts-tubearchivist
       - archivist-es
-    healthcheck:
-      test: "exit 0"
-    depends_on:
-      archivist-es:
-        condition: service_healthy
 
   archivist-es:
     image: bbilly1/tubearchivist-es         # only for amd64, or use official es 8.14.3
@@ -98,8 +94,9 @@ services:
     healthcheck:
       test: "exit 0"
     depends_on:
-      ts-tubearchivist:
-        condition: service_healthy
+      - ts-tubearchivist
+      # ts-tubearchivist:
+      #   condition: service_healthy
 
 volumes:
   # media:

@@ -1,0 +1,58 @@
+---
+# networks:
+#   discount-bandit:
+#     driver: bridge
+
+services:
+  ts-discount-bandit:
+    image: tailscale/tailscale:latest
+    volumes:
+      - ${DATA_DIR}/discount-bandit/tailscale:/var/lib/tailscale
+      - ${DATA_DIR}/discount-bandit/tailscale/tls:/mnt/tls
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - TS_HOSTNAME=discount-bandit
+      - TS_STATE_DIR=${DATA_DIR}/discount-bandit/tailscale  #/var/run/tailscale
+      # - TS_USERSPACE=true
+      - TS_AUTHKEY=${DISCOUNT_BANDIT_KEY}
+    ports:
+      - 8085:80
+    cap_add:
+      - net_admin
+      - sys_module
+    healthcheck:
+      test: "exit 0"
+    restart: unless-stopped
+
+  discount-bandit:
+    build:
+      context: .
+#    image: ./
+    network_mode: service:ts-discount-bandit
+    # ports:
+    #   - 8080:80
+    # networks:
+    #   - discount-bandit
+    volumes:
+      - ./database/database.sqlite:/app/database/database.sqlite
+      - ./.env:/app/.env
+    environment:
+      DB_CONNECTION: sqlite
+      NTFY_CHANNEL_ID: ""
+      NTFY_BASE_URL: ntfy.${TS_DOMAIN}
+      # TELEGRAM_BOT_TOKEN: ""
+      # TELEGRAM_CHANNEL_ID: ""
+      DEFAULT_USER: "test"
+      DEFAULT_EMAIL: ${DEFAULT_EMAIL}
+      DEFAULT_PASSWORD: "thisismypassword"
+      APPRISE_URL: ""
+      APP_TIMEZONE: UTC
+      RSS_FEED: 1
+      TOP_NAVIGATION: 0
+      DISABLE_TOP_BAR: 0
+      BREADCRUMBS: 1
+      SPA: 1
+      DISABLE_AUTH: 1
+      THEME_COLOR: Stone
+      APP_URL: "http://localhost:8080"
+      ASSET_URL: "http://localhost:8080"
