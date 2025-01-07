@@ -46,10 +46,8 @@ services:
       DB_ENGINE: postgres
       POSTGRES_USER: mealie
       POSTGRES_PASSWORD: mealie
-
       POSTGRES_SERVER: postgres
       POSTGRES_PORT: 5432
-
     depends_on:
       mealie-postgres:
         condition: service_healthy
@@ -61,11 +59,11 @@ services:
     volumes:
       - ${DATA_DIR}/mealie/pgdata:/var/lib/postgresql/data
     network_mode: service:ts-mealie
-
     environment:
       POSTGRES_PASSWORD: mealie
       POSTGRES_USER: mealie
       PGUSER: mealie
+      POSTGRES_DB: mealie
     healthcheck:
       test: "exit 0"
     # healthcheck:
