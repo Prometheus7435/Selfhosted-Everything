@@ -52,7 +52,7 @@ services:
         condition: service_healthy
 
   mealie-postgres:
-    container_name: postgres
+    container_name: mealie-postgres
     image: postgres:15
     restart: always
     volumes:
