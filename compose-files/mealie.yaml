@@ -60,6 +60,7 @@ services:
       - ${DATA_DIR}/mealie/pgdata:/var/lib/postgresql/data
     network_mode: service:ts-mealie
     environment:
+      POSTGRES_HOST: mealie
       POSTGRES_PASSWORD: mealie
       POSTGRES_USER: mealie
       PGUSER: mealie
