@@ -34,13 +34,13 @@ services:
       - TORRENTING_PORT=6881
     volumes:
       - ${DATA_DIR}/qbittorrent/appdata:/config
-      - ${MEDIA_DIR}/downloads:/downloads #optional
+      - ${MEDIA_DIR}/downloads:/downloads
     network_mode: service:ts-qbittorrent
     # ports:
     #   - 8086:8080
     #   - 6881:6881
     #   - 6881:6881/udp
-   depends_on:
-     ts-qbittorrent:
-       condition: service_healthy
+    depends_on:
+      ts-qbittorrent:
+        condition: service_healthy
     restart: unless-stopped
