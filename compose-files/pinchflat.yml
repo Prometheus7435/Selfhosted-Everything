@@ -32,3 +32,4 @@ services:
       - ${MEDIA_DIR}/webshows:/downloads
     depends_on:
       - ts-pinchflat
+    restart: unless-stopped

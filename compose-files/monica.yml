@@ -46,7 +46,7 @@ services:
     #   - 443:443
     depends_on:
       - ts-monica
-    restart: unless-stopped
+    restart: always
 
   mariadb:
     image: lscr.io/linuxserver/mariadb:latest  # mariadb:11
@@ -66,4 +66,4 @@ services:
       - ${DATA_DIR}/monica/mariadb/config:/config
     depends_on:
       - ts-monica
-    restart: unless-stopped
+    restart: always
