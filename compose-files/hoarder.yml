@@ -1,5 +1,5 @@
 ---
-version: "3.8"
+# version: "3.8"
 services:
   ts-hoarder:
     image: tailscale/tailscale:latest
@@ -33,7 +33,7 @@ services:
       - ${DATA_DIR}/hoarder/data:/data
     # ports:
     #   - 3000:3000
-    network_mode: service:ts-monica
+    network_mode: service:ts-hoarder
     env_file:
       - .env
     environment:
