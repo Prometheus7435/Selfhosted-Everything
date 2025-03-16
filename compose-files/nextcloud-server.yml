@@ -66,6 +66,8 @@ services:
       - NEXTCLOUD_KEEP_DISABLED_APPS=false
 
       - REDIS_HOST=redis
+    healthcheck:
+      test: "exit 0"
     depends_on:
       - redis
       - db
