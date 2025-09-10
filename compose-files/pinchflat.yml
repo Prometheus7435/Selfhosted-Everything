@@ -1,21 +1,23 @@
 ---
 services:
   ts-pinchflat:
-    image: tailscale/tailscale:latest
+    image: ghcr.io/tailscale/tailscale:latest # tailscale/tailscale:latest
     volumes:
       - ${DATA_DIR}/pinchflat/tailscale:/var/lib/tailscale
       - ${DATA_DIR}/pinchflat/tailscale/tls:/mnt/tls
+#      - /dev/net/tun:/dev/net/tun
+    devices:
       - /dev/net/tun:/dev/net/tun
     environment:
       - TS_HOSTNAME=pinchflat
       - TS_STATE_DIR=${DATA_DIR}/pinchflat/tailscale  #/var/run/tailscale
-      # - TS_USERSPACE=true
-      - TS_AUTHKEY=${PINCHFLAT_KEY}
+      # - TS_AUTHKEY=${PINCHFLAT_KEY}
+      - TS_AUTH_ONCE=true
     ports:
       - 8945:8945
     cap_add:
       - net_admin
-      - sys_module
+#      - sys_module
     healthcheck:
       test: "exit 0"
     restart: unless-stopped
@@ -24,12 +26,12 @@ services:
     image: ghcr.io/kieraneglin/pinchflat:latest
     environment:
       - TZ=${HOME_TIMEZONE}
+    depends_on:
+      - ts-pinchflat
     network_mode: service:ts-pinchflat
     # ports:
     #   - '8945:8945'
     volumes:
       - ${DATA_DIR}/pinchflat/config:/config
       - ${MEDIA_DIR}/webshows:/downloads
-    depends_on:
-      - ts-pinchflat
-    restart: unless-stopped
+     restart: unless-stopped
