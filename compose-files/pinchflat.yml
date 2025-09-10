@@ -5,14 +5,14 @@ services:
     volumes:
       - ${DATA_DIR}/pinchflat/tailscale:/var/lib/tailscale
       - ${DATA_DIR}/pinchflat/tailscale/tls:/mnt/tls
-#      - /dev/net/tun:/dev/net/tun
     devices:
       - /dev/net/tun:/dev/net/tun
     environment:
       - TS_HOSTNAME=pinchflat
       - TS_STATE_DIR=${DATA_DIR}/pinchflat/tailscale  #/var/run/tailscale
-#      - TS_AUTHKEY=${PINCHFLAT_KEY}
+      - TS_AUTHKEY=${PINCHFLAT_KEY}
       - TS_AUTH_ONCE=true
+      - TS_USERSPACE=false
     ports:
       - 8945:8945
     cap_add:
