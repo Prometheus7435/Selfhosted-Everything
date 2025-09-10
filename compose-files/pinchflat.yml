@@ -1,7 +1,7 @@
 ---
 services:
   ts-pinchflat:
-    image: ghcr.io/tailscale/tailscale:latest # tailscale/tailscale:latest
+    image: tailscale/tailscale:latest
     volumes:
       - ${DATA_DIR}/pinchflat/tailscale:/var/lib/tailscale
       - ${DATA_DIR}/pinchflat/tailscale/tls:/mnt/tls
