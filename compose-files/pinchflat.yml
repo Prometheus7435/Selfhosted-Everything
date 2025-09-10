@@ -23,7 +23,7 @@ services:
     restart: unless-stopped
 
   pinchflat:
-    image: ghcr.io/kieraneglin/pinchflat:latest
+    image: keglin/pinchflat:latest # ghcr.io/kieraneglin/pinchflat:latest
     environment:
       - TZ=${HOME_TIMEZONE}
     depends_on:
